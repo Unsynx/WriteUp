@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const ProfilePage = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
-  const [error, setError]     = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchProfile = async () => {

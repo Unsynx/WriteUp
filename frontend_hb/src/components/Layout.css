@@ -3,15 +3,19 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #f9f9f9;
+    color: #333;
+    font-family: Arial, sans-serif;
   }
   
   .layout-header {
-    background-color: #4a148c; /* e.g., a deep purple */
+    background-color: #4a148c;
     padding: 1rem;
   }
   
   .navbar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
   }
@@ -23,15 +27,25 @@
     font-size: 1.5rem;
   }
   
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  
   .nav-links a {
     color: #fff;
     text-decoration: none;
     margin-left: 1rem;
   }
   
+  .nav-links a:hover {
+    text-decoration: underline;
+  }
+  
   .welcome {
     color: #fff;
-    margin-right: 1rem;
+    margin-left: 1rem;
   }
   
   .logout-btn {
@@ -49,12 +63,29 @@
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
+    animation: fadeIn 0.5s ease-in;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   
   .layout-footer {
-    background-color: #311b92; /* slightly different purple tone */
+    background-color: #311b92;
     color: #fff;
     text-align: center;
     padding: 1rem;
+  }
+  
+  /* Responsive design adjustments */
+  @media (max-width: 768px) {
+    .nav-links {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .nav-links a, .logout-btn, .welcome {
+      margin: 0.5rem 0;
+    }
   }
   
