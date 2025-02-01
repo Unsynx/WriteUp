@@ -14,6 +14,7 @@ const LandingPage = () => {
       <div className="landing-btns">
         <Link to="/register" className="cta-btn">Get Started</Link>
         <Link to="/login" className="secondary-btn">Log In</Link>
+        <NavLink to="/placement">Placement Test</NavLink>
       </div>
     </div>
   );

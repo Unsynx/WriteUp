@@ -3,6 +3,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Layout.css'; // Basic CSS (optional if using a library)
 
+
 const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
   return (
     <div className="layout-container">
@@ -24,6 +25,7 @@ const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
               <>
                 <NavLink to="/login">Login</NavLink>
                 <NavLink to="/register">Register</NavLink>
+                <NavLink to="/placement">Placement Test</NavLink>
               </>
             )}
           </div>
