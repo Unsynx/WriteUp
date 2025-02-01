@@ -1,49 +1,60 @@
-// src/components/ProfilePage.jsx
-import React, { useState, useEffect } from 'react';
+// src/LoginPage.jsx
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
-const ProfilePage = () => {
+const LoginPage = ({ setIsAuthenticated, setUsername }) => {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState(null);
-  const [error, setError]     = useState('');
+  const [email, setEmail]       = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError]       = useState('');
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/profile', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setProfile(response.data);
-      } catch (err) {
-        setError('Error fetching profile.');
-      }
-    };
-    fetchProfile();
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    navigate('/login');
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:5000/api/login', { email, password });
+      localStorage.setItem('token', response.data.access_token);
+      localStorage.setItem('username', response.data.username);
+      setIsAuthenticated(true);
+      setUsername(response.data.username);
+      navigate('/profile');
+    } catch (err) {
+      setError('Invalid credentials. Please try again.');
+    }
   };
 
   return (
     <div>
-      <h2>Profile</h2>
-      {profile ? (
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        {/* Email */}
         <div>
-          <p><strong>Username:</strong> {profile.username}</p>
-          <p><strong>Email:</strong> {profile.email}</p>
+          <label>Email:</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
-      ) : (
-        <p>Loading profile...</p>
-      )}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <button onClick={handleLogout}>Logout</button>
+        {/* Password */}
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <button type="submit">Login</button>
+      </form>
+      <p>
+        Don't have an account? <Link to="/register">Register</Link>
+      </p>
     </div>
   );
 };
 
-export default ProfilePage;
+export default LoginPage;
