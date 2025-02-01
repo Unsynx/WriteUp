@@ -11,7 +11,7 @@ const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
       <header className="layout-header">
         <nav className="navbar">
           <NavLink to="/" className="nav-brand">
-            WriteQuest
+            WriteUp
           </NavLink>
           <div className="nav-links">
             {/* NavLink 'activeClassName' prop doesn't work in v6. Instead use 'className' function */}
