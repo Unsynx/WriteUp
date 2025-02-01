@@ -73,7 +73,7 @@ const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
       </main>
 
       <footer className="layout-footer">
-        <p>© {new Date().getFullYear()} WriteQuest. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} WriteUp. All rights reserved.</p>
       </footer>
     </div>
   );
