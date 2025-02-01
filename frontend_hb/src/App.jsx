@@ -9,6 +9,7 @@ const RegisterPage = React.lazy(() => import('./pages/RegisterPage.jsx'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage.jsx'));
 const PlacementPage = React.lazy(() => import('./pages/PlacementPage.jsx'));
 const SearchPage = React.lazy(() => import('./pages/SearchPage.jsx'));
+const WriteUpPage = React.lazy(() => import('./pages/WriteUpPage.jsx'));
 
 
 function App() {
@@ -62,6 +63,11 @@ return (
         <Route path="/search" element={
           <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
             <SearchPage />
+          </Layout>
+        } />
+                <Route path="/write" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <WriteUpPage />
           </Layout>
         } />
         <Route path="*" element={
