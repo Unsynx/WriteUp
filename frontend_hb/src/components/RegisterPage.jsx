@@ -48,7 +48,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+    <div style={{ padding: '2rem', width: '100%', boxSizing: 'border-box' }}>
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
         <div style={{ marginBottom: '1rem' }}>

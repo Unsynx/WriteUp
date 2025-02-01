@@ -1,4 +1,6 @@
 /* src/components/Layout.css */
+
+/* Container for the entire layout */
 .layout-container {
     display: flex;
     flex-direction: column;
@@ -8,9 +10,14 @@
     font-family: Arial, sans-serif;
   }
   
+  /* Make the header sticky at the top */
   .layout-header {
     background-color: #4a148c;
     padding: 1rem;
+    width: 100%;
+    position: sticky; /* Sticky Nav */
+    top: 0;          /* Sticks to top of viewport */
+    z-index: 1000;
   }
   
   .navbar {
@@ -27,20 +34,31 @@
     font-size: 1.5rem;
   }
   
+  /* On smaller screens, the nav links might wrap */
   .nav-links {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
   }
   
+  /* Generic link styling */
   .nav-links a {
     color: #fff;
     text-decoration: none;
     margin-left: 1rem;
+    padding: 0.25rem 0.5rem;
+    position: relative;
+    transition: background-color 0.2s ease;
   }
   
   .nav-links a:hover {
-    text-decoration: underline;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Active link highlight */
+  .nav-links a.active-link {
+    background-color: #311b92;
+    border-radius: 4px;
   }
   
   .welcome {
@@ -61,8 +79,8 @@
   .layout-content {
     flex: 1;
     padding: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
     animation: fadeIn 0.5s ease-in;
   }
   
@@ -76,16 +94,6 @@
     color: #fff;
     text-align: center;
     padding: 1rem;
-  }
-  
-  /* Responsive design adjustments */
-  @media (max-width: 768px) {
-    .nav-links {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .nav-links a, .logout-btn, .welcome {
-      margin: 0.5rem 0;
-    }
+    width: 100%;
   }
   

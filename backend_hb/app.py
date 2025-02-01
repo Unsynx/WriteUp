@@ -18,7 +18,7 @@ client = MongoClient("mongodb://localhost:27017/")
 db = client["your_db_name"]
 users_collection = db["users"]
 challenges_collection = db["challenges"]
-
+progress_collection = db["progress"]  # New collection for progress tracking
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -79,7 +79,7 @@ def create_challenge():
     data = request.get_json()
     title = data.get('title')
     tags = data.get('tags')  # Expect a list of tags
-    difficulty = data.get('difficulty')  # Could be a string or number (e.g., "Easy", "Medium", "Hard")
+    difficulty = data.get('difficulty')  # Could be a string like "Easy", "Medium", "Hard"
     essay_prompt = data.get('essay_prompt')
 
     # Validate required fields
@@ -97,10 +97,11 @@ def create_challenge():
     result = challenges_collection.insert_one(challenge)
     return jsonify({"msg": "Challenge created successfully", "id": str(result.inserted_id)}), 201
 
+
 @app.route('/api/challenges', methods=['GET'])
 def search_challenges():
     title = request.args.get("title")
-    tags = request.args.get("tags")  # Expect a comma-separated string of tags
+    tags = request.args.get("tags")  # Expect a comma-separated string
     difficulty = request.args.get("difficulty")
 
     query = {}
@@ -121,6 +122,93 @@ def search_challenges():
     for challenge in challenges:
         challenge["_id"] = str(challenge["_id"])
     return jsonify(challenges), 200
+
+
+# ===========================
+# Progress Dashboard Endpoints
+# ===========================
+
+@app.route('/api/progress', methods=['GET'])
+@jwt_required()
+def get_progress():
+    """
+    Returns a Chart.js-compatible object for the authenticated user's progress.
+    {
+        "labels": ["Week 1", "Week 2", ...],
+        "datasets": [
+            {
+                "label": "My Metric",
+                "data": [50, 65, ...],
+                "borderColor": "#03a9f4",
+                "backgroundColor": "rgba(3, 169, 244, 0.2)",
+                "tension": 0.3
+            }
+        ]
+    }
+    """
+    user_id = get_jwt_identity()
+    doc = progress_collection.find_one({"user_id": user_id})
+    if not doc:
+        # Return empty chart if no progress document is found for this user
+        return jsonify({
+            "labels": [],
+            "datasets": []
+        }), 200
+
+    # Example for a single metric (like "Vocabulary Growth")
+    chart_data = {
+        "labels": doc["labels"],    # e.g. ["Week 1", "Week 2", ...]
+        "datasets": [
+            {
+                "label": "Vocabulary Growth",  # You can customize or store multiple metrics
+                "data": doc["dataPoints"],     # e.g. [50, 65, 80, 95]
+                "borderColor": "#03a9f4",
+                "backgroundColor": "rgba(3, 169, 244, 0.2)",
+                "tension": 0.3
+            }
+        ]
+    }
+    return jsonify(chart_data), 200
+
+
+@app.route('/api/progress/add', methods=['POST'])
+@jwt_required()
+def add_progress_data():
+    """
+    Expects JSON: { "label": "Week 5", "value": 90 }
+    Appends the label/value to the user's data.
+    """
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    label = data.get("label")
+    value = data.get("value")
+
+    if not label or value is None:
+        return jsonify({"msg": "Invalid data"}), 400
+
+    # Find or create a doc for this user
+    doc = progress_collection.find_one({"user_id": user_id})
+    if not doc:
+        # Create a new document for the user
+        new_doc = {
+            "user_id": user_id,
+            "labels": [label],
+            "dataPoints": [value]
+        }
+        progress_collection.insert_one(new_doc)
+    else:
+        # Append new data to existing arrays
+        doc["labels"].append(label)
+        doc["dataPoints"].append(value)
+        progress_collection.update_one(
+            {"_id": doc["_id"]},
+            {"$set": {
+                "labels": doc["labels"],
+                "dataPoints": doc["dataPoints"]
+            }}
+        )
+
+    return jsonify({"msg": "Data point added successfully"}), 200
 
 
 if __name__ == '__main__':

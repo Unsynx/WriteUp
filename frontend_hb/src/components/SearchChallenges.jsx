@@ -5,7 +5,7 @@ import axios from 'axios';
 const SearchChallenges = () => {
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
-  const [difficulty, setDifficulty] = useState('');
+  const [difficulty, setDifficulty] = useState(''); // holds the selected difficulty
   const [challenges, setChallenges] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -28,8 +28,16 @@ const SearchChallenges = () => {
     }
   };
 
+  // Helper function to determine the color for a given difficulty.
+  const getDifficultyColor = (diff) => {
+    if (diff === 'Easy') return 'green';
+    if (diff === 'Medium') return 'orange';
+    if (diff === 'Hard') return 'red';
+    return 'inherit';
+  };
+
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ padding: '2rem', width: '100%', boxSizing: 'border-box' }}>
       <h2>Search Challenges</h2>
       <form onSubmit={handleSearch} style={{ marginBottom: '1.5rem' }}>
         <input
@@ -46,13 +54,16 @@ const SearchChallenges = () => {
           onChange={(e) => setTags(e.target.value)}
           style={{ width: '30%', padding: '0.5rem', marginRight: '1rem' }}
         />
-        <input
-          type="text"
-          placeholder="Difficulty"
+        <select
           value={difficulty}
           onChange={(e) => setDifficulty(e.target.value)}
           style={{ width: '20%', padding: '0.5rem', marginRight: '1rem' }}
-        />
+        >
+          <option value="">All Difficulties</option>
+          <option value="Easy" style={{ color: 'green' }}>Easy</option>
+          <option value="Medium" style={{ color: 'orange' }}>Medium</option>
+          <option value="Hard" style={{ color: 'red' }}>Hard</option>
+        </select>
         <button type="submit" style={{ padding: '0.5rem 1rem' }}>Search</button>
       </form>
       {loading && <p>Loading challenges...</p>}
@@ -61,9 +72,16 @@ const SearchChallenges = () => {
         {challenges.map(challenge => (
           <li key={challenge._id} style={{ borderBottom: '1px solid #ccc', padding: '1rem 0' }}>
             <h3>{challenge.title}</h3>
-            <p><strong>Difficulty:</strong> {challenge.difficulty}</p>
+            <p>
+              <strong>Difficulty:</strong>{' '}
+              <span style={{ color: getDifficultyColor(challenge.difficulty) }}>
+                {challenge.difficulty}
+              </span>
+            </p>
             <p>{challenge.essay_prompt}</p>
-            <p><strong>Tags:</strong> {challenge.tags.join(', ')}</p>
+            <p>
+              <strong>Tags:</strong> {challenge.tags.join(', ')}
+            </p>
           </li>
         ))}
       </ul>
