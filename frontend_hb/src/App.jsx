@@ -1,20 +1,14 @@
 // src/App.jsx
 import React, { Suspense, useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './components/Layout.jsx';
+import Layout from './components/Navbar.jsx';
 
-const LandingPage = React.lazy(() => import('./components/LandingPage.jsx'));
-const LoginPage = React.lazy(() => import('./components/LoginPage.jsx'));
-const RegisterPage = React.lazy(() => import('./components/RegisterPage.jsx'));
-const ProfilePage = React.lazy(() => import('./components/ProfilePage.jsx'));
-const PlacementPage = React.lazy(() => import('./components/PlacementPage.jsx'));
-const Leaderboard = React.lazy(() => import('./components/Leaderboard.jsx'));
-const Badges = React.lazy(() => import('./components/Badges.jsx'));
-const Tutorial = React.lazy(() => import('./components/Tutorial.jsx'));
-const SearchChallenges = React.lazy(() => import('./components/SearchChallenges.jsx'));
-const ProgressDashboard = React.lazy(() => import('./components/ProgressDashboard.jsx'));
-const RewardsMarketplace = React.lazy(() => import('./components/RewardsMarketplace.jsx'));
-const DiscussionBoard = React.lazy(() => import('./components/DiscussionBoard.jsx'));
+const LandingPage = React.lazy(() => import('./pages/LandingPage.jsx'));
+const LoginPage = React.lazy(() => import('./pages/LoginPage.jsx'));
+const RegisterPage = React.lazy(() => import('./pages/RegisterPage.jsx'));
+const ProfilePage = React.lazy(() => import('./pages/ProfilePage.jsx'));
+const PlacementPage = React.lazy(() => import('./pages/PlacementPage.jsx'));
+const SearchPage = React.lazy(() => import('./pages/SearchPage.jsx'));
 
 
 function App() {
@@ -65,39 +59,9 @@ return (
             <PlacementPage />
           </Layout>
         } />
-        <Route path="/leaderboard" element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <Leaderboard />
-          </Layout>
-        } />
-        <Route path="/badges" element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <Badges />
-          </Layout>
-        } />
-        <Route path="/tutorial" element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <Tutorial />
-          </Layout>
-        } />
         <Route path="/search" element={
           <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <SearchChallenges />
-          </Layout>
-        } />
-        <Route path="/progress" element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <ProgressDashboard />
-          </Layout>
-        } />
-        <Route path="/rewards" element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <RewardsMarketplace />
-          </Layout>
-        } />
-        <Route path="/discussions" element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <DiscussionBoard />
+            <SearchPage />
           </Layout>
         } />
         <Route path="*" element={

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const SearchChallenges = () => {
+const SearchPage = () => {
   const [title, setTitle] = useState('');
   const [tags, setTags] = useState('');
   const [difficulty, setDifficulty] = useState(''); // holds the selected difficulty
@@ -89,4 +89,4 @@ const SearchChallenges = () => {
   );
 };
 
-export default SearchChallenges;
+export default SearchPage;

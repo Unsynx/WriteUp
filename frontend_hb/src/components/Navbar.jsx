@@ -3,9 +3,9 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'; // For global toasts
 import 'react-toastify/dist/ReactToastify.css';   // Toastify CSS
-import './Layout.css';
+import './Navbar.css';
 
-const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
+const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
   return (
     <div className="layout-container">
       <header className="layout-header">
@@ -32,42 +32,6 @@ const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
               className={({ isActive }) => (isActive ? 'active-link' : undefined)}
             >
               Placement Test
-            </NavLink>
-            <NavLink
-              to="/tutorial"
-              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
-            >
-              Tutorial
-            </NavLink>
-            <NavLink
-              to="/leaderboard"
-              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
-            >
-              Leaderboard
-            </NavLink>
-            <NavLink
-              to="/badges"
-              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
-            >
-              Badges
-            </NavLink>
-            <NavLink
-              to="/rewards"
-              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
-            >
-              Rewards
-            </NavLink>
-            <NavLink
-              to="/discussions"
-              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
-            >
-              Forum
-            </NavLink>
-            <NavLink
-              to="/progress"
-              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
-            >
-              Progress
             </NavLink>
             {isAuthenticated ? (
               <>
@@ -115,4 +79,4 @@ const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
   );
 };
 
-export default Layout;
+export default Navbar ;
