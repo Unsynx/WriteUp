@@ -1,0 +1,3 @@
+title,prompt,tags,difficulty,narrative,descriptive,prose,poetic,argumentative,comaparative
+Test 1,Write something,narrative,Easy,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE
+Test 2,Something else,prose-poetic-argumentative,Hard,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE
