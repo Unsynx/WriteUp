@@ -12,6 +12,10 @@ const Leaderboard = React.lazy(() => import('./components/Leaderboard.jsx'));
 const Badges = React.lazy(() => import('./components/Badges.jsx'));
 const Tutorial = React.lazy(() => import('./components/Tutorial.jsx'));
 const SearchChallenges = React.lazy(() => import('./components/SearchChallenges.jsx'));
+const ProgressDashboard = React.lazy(() => import('./components/ProgressDashboard.jsx'));
+const RewardsMarketplace = React.lazy(() => import('./components/RewardsMarketplace.jsx'));
+const DiscussionBoard = React.lazy(() => import('./components/DiscussionBoard.jsx'));
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,89 +37,74 @@ function App() {
     setUsername('');
   };
 
-  return (
+return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              <LandingPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              {isAuthenticated ? <Navigate to="/profile" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} />}
-            </Layout>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              {isAuthenticated ? <Navigate to="/profile" /> : <RegisterPage />}
-            </Layout>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              {isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />}
-            </Layout>
-          }
-        />
-        <Route
-          path="/placement"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              <PlacementPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/leaderboard"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              <Leaderboard />
-            </Layout>
-          }
-        />
-        <Route
-          path="/badges"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              <Badges />
-            </Layout>
-          }
-        />
-        <Route
-          path="/tutorial"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              <Tutorial />
-            </Layout>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              <SearchChallenges />
-            </Layout>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-              <h1>404 - Page Not Found</h1>
-            </Layout>
-          }
-        />
+        <Route path="/" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <LandingPage />
+          </Layout>
+        } />
+        <Route path="/login" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            {isAuthenticated ? <Navigate to="/profile" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} />}
+          </Layout>
+        } />
+        <Route path="/register" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            {isAuthenticated ? <Navigate to="/profile" /> : <RegisterPage />}
+          </Layout>
+        } />
+        <Route path="/profile" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            {isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />}
+          </Layout>
+        } />
+        <Route path="/placement" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <PlacementPage />
+          </Layout>
+        } />
+        <Route path="/leaderboard" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <Leaderboard />
+          </Layout>
+        } />
+        <Route path="/badges" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <Badges />
+          </Layout>
+        } />
+        <Route path="/tutorial" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <Tutorial />
+          </Layout>
+        } />
+        <Route path="/search" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <SearchChallenges />
+          </Layout>
+        } />
+        <Route path="/progress" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <ProgressDashboard />
+          </Layout>
+        } />
+        <Route path="/rewards" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <RewardsMarketplace />
+          </Layout>
+        } />
+        <Route path="/discussions" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <DiscussionBoard />
+          </Layout>
+        } />
+        <Route path="*" element={
+          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+            <h1>404 - Page Not Found</h1>
+          </Layout>
+        } />
       </Routes>
     </Suspense>
   );
