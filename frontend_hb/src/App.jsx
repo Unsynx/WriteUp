@@ -6,6 +6,9 @@ import LoginPage from "./components/LoginPage.jsx";
 import RegisterPage from "./components/RegisterPage.jsx";
 import ProfilePage from "./components/ProfilePage.jsx";
 import Layout from "./components/Layout.jsx"; // if you have a layout
+import SearchChallenges from './components/SearchChallenges.jsx';
+
+
 
 function App() {
   // Your existing state and logic here...
@@ -72,6 +75,7 @@ function App() {
           </Layout>
         }
       />
+      <Route path="/search" element={<SearchChallenges />} />
     </Routes>
   );
 }

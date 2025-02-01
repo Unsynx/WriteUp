@@ -15,6 +15,7 @@ jwt = JWTManager(app)
 client = MongoClient("mongodb://localhost:27017/")
 db = client["your_db_name"]
 users_collection = db["users"]
+challenges_collection = db["challenges"]
 
 
 @app.route('/api/register', methods=['POST'])
@@ -69,6 +70,55 @@ def profile():
             "email": user["email"]
         }), 200
     return jsonify({"msg": "User not found"}), 404
+
+
+@app.route('/api/challenges', methods=['POST'])
+def create_challenge():
+    data = request.get_json()
+    title = data.get('title')
+    tags = data.get('tags')  # Expect a list of tags
+    difficulty = data.get('difficulty')  # Could be a string or number (e.g., "Easy", "Medium", "Hard")
+    essay_prompt = data.get('essay_prompt')
+
+    # Validate required fields
+    if not title or not tags or difficulty is None or not essay_prompt:
+        return jsonify({"msg": "Missing required fields"}), 400
+
+    challenge = {
+        "title": title,
+        "tags": tags,
+        "difficulty": difficulty,
+        "essay_prompt": essay_prompt,
+        "created_at": datetime.datetime.now(datetime.timezone.utc)
+    }
+
+    result = challenges_collection.insert_one(challenge)
+    return jsonify({"msg": "Challenge created successfully", "id": str(result.inserted_id)}), 201
+
+@app.route('/api/challenges', methods=['GET'])
+def search_challenges():
+    title = request.args.get("title")
+    tags = request.args.get("tags")  # Expect a comma-separated string of tags
+    difficulty = request.args.get("difficulty")
+
+    query = {}
+
+    if title:
+        # Use regex for partial, case-insensitive matching
+        query["title"] = {"$regex": title, "$options": "i"}
+    if tags:
+        # Split the string into a list, trimming extra spaces
+        tags_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
+        if tags_list:
+            query["tags"] = {"$in": tags_list}
+    if difficulty:
+        query["difficulty"] = difficulty
+
+    challenges = list(challenges_collection.find(query))
+    # Convert ObjectId to string for JSON serialization
+    for challenge in challenges:
+        challenge["_id"] = str(challenge["_id"])
+    return jsonify(challenges), 200
 
 
 if __name__ == '__main__':
