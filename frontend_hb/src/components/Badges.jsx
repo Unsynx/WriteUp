@@ -11,7 +11,6 @@ const Badges = () => {
     const fetchBadges = async () => {
       setLoading(true);
       try {
-        // Replace with your backend endpoint for badges data
         const response = await axios.get('http://localhost:5000/api/badges');
         setBadges(response.data);
       } catch (err) {
@@ -25,18 +24,35 @@ const Badges = () => {
   }, []);
 
   return (
-    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '2rem' }}>
+    <div style={{ width: '100%', padding: '2rem', boxSizing: 'border-box' }}>
       <h2>Your Badges</h2>
       {loading && <p>Loading badges...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
         {badges.map((badge) => (
-          <li key={badge._id} style={{ marginBottom: '1rem', border: '1px solid #ccc', padding: '1rem', borderRadius: '4px' }}>
+          <div
+            key={badge._id}
+            style={{
+              flex: '0 0 200px',
+              border: '1px solid #ccc',
+              padding: '1rem',
+              borderRadius: '4px',
+              textAlign: 'center',
+            }}
+          >
+            {/* If iconUrl is provided by your backend */}
+            {badge.iconUrl && (
+              <img
+                src={badge.iconUrl}
+                alt={badge.name}
+                style={{ width: '80px', height: '80px', objectFit: 'contain' }}
+              />
+            )}
             <h3>{badge.name}</h3>
             <p>{badge.description}</p>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

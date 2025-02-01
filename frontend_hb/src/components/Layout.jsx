@@ -1,6 +1,8 @@
 // src/components/Layout.jsx
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify'; // For global toasts
+import 'react-toastify/dist/ReactToastify.css';   // Toastify CSS
 import './Layout.css';
 
 const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
@@ -12,31 +14,99 @@ const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
             WriteQuest
           </NavLink>
           <div className="nav-links">
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/search">Challenges</NavLink>
-            <NavLink to="/placement">Placement Test</NavLink>
-            <NavLink to="/tutorial">Tutorial</NavLink>
-            <NavLink to="/leaderboard">Leaderboard</NavLink>
-            <NavLink to="/badges">Badges</NavLink>
+            {/* NavLink 'activeClassName' prop doesn't work in v6. Instead use 'className' function */}
+            <NavLink 
+              to="/" 
+              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+            >
+              Home
+            </NavLink>
+            <NavLink 
+              to="/search"
+              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+            >
+              Challenges
+            </NavLink>
+            <NavLink 
+              to="/placement"
+              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+            >
+              Placement Test
+            </NavLink>
+            <NavLink
+              to="/tutorial"
+              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+            >
+              Tutorial
+            </NavLink>
+            <NavLink
+              to="/leaderboard"
+              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+            >
+              Leaderboard
+            </NavLink>
+            <NavLink
+              to="/badges"
+              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+            >
+              Badges
+            </NavLink>
+            <NavLink
+              to="/rewards"
+              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+            >
+              Rewards
+            </NavLink>
+            <NavLink
+              to="/discussions"
+              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+            >
+              Forum
+            </NavLink>
+            <NavLink
+              to="/progress"
+              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+            >
+              Progress
+            </NavLink>
             {isAuthenticated ? (
               <>
                 <span className="welcome">Welcome, {username}!</span>
-                <NavLink to="/profile">Profile</NavLink>
+                <NavLink 
+                  to="/profile"
+                  className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+                >
+                  Profile
+                </NavLink>
                 <button className="logout-btn" onClick={handleLogout}>
                   Logout
                 </button>
               </>
             ) : (
               <>
-                <NavLink to="/login">Login</NavLink>
-                <NavLink to="/register">Register</NavLink>
+                <NavLink 
+                  to="/login"
+                  className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+                >
+                  Login
+                </NavLink>
+                <NavLink 
+                  to="/register"
+                  className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+                >
+                  Register
+                </NavLink>
               </>
             )}
           </div>
         </nav>
       </header>
 
-      <main className="layout-content">{children}</main>
+      <main className="layout-content">
+        {/* Global Toast Container */}
+        <ToastContainer position="top-center" autoClose={3000} />
+        {children}
+      </main>
 
       <footer className="layout-footer">
         <p>© {new Date().getFullYear()} WriteQuest. All rights reserved.</p>

@@ -1,9 +1,9 @@
 // src/components/RewardsMarketplace.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const RewardsMarketplace = () => {
-  // Dummy reward data; in a real app, fetch from your backend.
   const [rewards, setRewards] = useState([
     { id: '1', name: 'Book Voucher', description: 'Get a $20 voucher for books', cost: 100 },
     { id: '2', name: 'Writing Software License', description: 'Free license for advanced writing tools', cost: 250 },
@@ -11,7 +11,6 @@ const RewardsMarketplace = () => {
   ]);
   const [error, setError] = useState('');
 
-  // Optional: Fetch rewards from backend on component mount.
   useEffect(() => {
     // Example:
     // axios.get('http://localhost:5000/api/rewards')
@@ -21,8 +20,8 @@ const RewardsMarketplace = () => {
 
   const handleRedeem = (reward) => {
     // For demo, simply alert the reward name.
-    alert(`Redeemed: ${reward.name}`);
     // In a real system, call an endpoint to deduct points and update the user's wallet.
+    toast.success(`You redeemed: ${reward.name}`);
   };
 
   return (
@@ -31,7 +30,15 @@ const RewardsMarketplace = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <ul style={{ listStyle: 'none', padding: 0 }}>
         {rewards.map((reward) => (
-          <li key={reward.id} style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '4px', marginBottom: '1rem' }}>
+          <li
+            key={reward.id}
+            style={{
+              border: '1px solid #ccc',
+              padding: '1rem',
+              borderRadius: '4px',
+              marginBottom: '1rem',
+            }}
+          >
             <h3>{reward.name}</h3>
             <p>{reward.description}</p>
             <p><strong>Cost:</strong> {reward.cost} points</p>

@@ -1,18 +1,34 @@
 /* src/LandingPage.css */
+
 .landing-container {
     text-align: center;
-    padding: 2rem;
+    padding: 4rem 2rem;
+    color: #fff;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0.4)
+      ),
+      url('https://images.unsplash.com/photo-1526738549149-9dfc0fd6d67a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    animation: fadeIn 1s ease-in-out;
+    min-height: 70vh; /* Make it tall enough to appear as a hero section */
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98); }
+    to { opacity: 1; transform: scale(1); }
   }
   
   .landing-container h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 1rem;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
   }
   
   .landing-container p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
-    color: #555;
   }
   
   .landing-btns {
@@ -48,5 +64,33 @@
   .secondary-btn:hover {
     background-color: #03a9f4;
     color: #fff;
+  }
+  
+  .features-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  .feature-card {
+    width: 250px;
+    margin: 1rem;
+    padding: 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.2);
+    text-align: center;
+    background-color: #fff;
+  }
+  
+  .feature-card h3 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .feature-card p {
+    font-size: 0.9rem;
+    color: #555;
   }
   
