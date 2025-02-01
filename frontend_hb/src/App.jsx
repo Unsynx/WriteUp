@@ -1,20 +1,19 @@
 // src/App.jsx
-import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import LandingPage from "./components/LandingPage.jsx"; // Updated path
-import LoginPage from "./components/LoginPage.jsx";
-import RegisterPage from "./components/RegisterPage.jsx";
-import ProfilePage from "./components/ProfilePage.jsx";
-import Layout from "./components/Layout.jsx"; // if you have a layout
-import SearchChallenges from './components/SearchChallenges.jsx';
-import PlacementPage from './components/PlacementPage.jsx';
+import React, { Suspense, useState, useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Layout from './components/Layout.jsx';
 
-
+const LandingPage = React.lazy(() => import('./components/LandingPage.jsx'));
+const LoginPage = React.lazy(() => import('./components/LoginPage.jsx'));
+const RegisterPage = React.lazy(() => import('./components/RegisterPage.jsx'));
+const ProfilePage = React.lazy(() => import('./components/ProfilePage.jsx'));
+const PlacementPage = React.lazy(() => import('./components/PlacementPage.jsx'));
+const Leaderboard = React.lazy(() => import('./components/Leaderboard.jsx'));
+const Badges = React.lazy(() => import('./components/Badges.jsx'));
+const Tutorial = React.lazy(() => import('./components/Tutorial.jsx'));
+const SearchChallenges = React.lazy(() => import('./components/SearchChallenges.jsx'));
 
 function App() {
-  // Your existing state and logic here...
-  
-  // Example authentication check:
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
 
@@ -35,50 +34,90 @@ function App() {
   };
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <LandingPage />
-          </Layout>
-        }
-      />
-      <Route
-        path="/login"
-        element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            {isAuthenticated ? <Navigate to="/profile" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} />}
-          </Layout>
-        }
-      />
-      <Route
-        path="/register"
-        element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            {isAuthenticated ? <Navigate to="/profile" /> : <RegisterPage />}
-          </Layout>
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            {isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />}
-          </Layout>
-        }
-      />
-      <Route
-        path="*"
-        element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <h1>404 - Page Not Found</h1>
-          </Layout>
-        }
-      />
-      <Route path="/search" element={<SearchChallenges />} />
-      <Route path="/placement" element={<PlacementPage />} />
-    </Routes>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              <LandingPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              {isAuthenticated ? <Navigate to="/profile" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} />}
+            </Layout>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              {isAuthenticated ? <Navigate to="/profile" /> : <RegisterPage />}
+            </Layout>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              {isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />}
+            </Layout>
+          }
+        />
+        <Route
+          path="/placement"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              <PlacementPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/leaderboard"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              <Leaderboard />
+            </Layout>
+          }
+        />
+        <Route
+          path="/badges"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              <Badges />
+            </Layout>
+          }
+        />
+        <Route
+          path="/tutorial"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              <Tutorial />
+            </Layout>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              <SearchChallenges />
+            </Layout>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
+              <h1>404 - Page Not Found</h1>
+            </Layout>
+          }
+        />
+      </Routes>
+    </Suspense>
   );
 }
 

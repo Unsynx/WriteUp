@@ -8,31 +8,23 @@ const PlacementPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Helper function to count words
   const countWords = (text) => {
     return text.trim().split(/\s+/).filter(Boolean).length;
   };
 
-  // Handle the form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if the essay meets the minimum word count
     if (countWords(essay) < 150) {
       setError('Your essay must contain at least 150 words.');
       return;
     }
-
     setLoading(true);
     setError('');
     setResult(null);
-    
     try {
-      // Replace the endpoint URL with your actual placement assessment endpoint
       const response = await axios.post('http://localhost:5000/api/placement', { essay });
-      // Assume the response data contains an object like: { level: "Intermediate", message: "Keep practicing your transitions." }
       setResult(response.data);
     } catch (err) {
-      console.error(err);
       setError('Error evaluating your essay. Please try again.');
     } finally {
       setLoading(false);
@@ -46,7 +38,6 @@ const PlacementPage = () => {
         Please write a short essay (at least 150 words) on a topic of your choice.
         Our AI will evaluate your writing skills and place you in the appropriate level.
       </p>
-      
       <form onSubmit={handleSubmit} style={{ marginBottom: '1.5rem' }}>
         <textarea 
           value={essay}
@@ -62,13 +53,10 @@ const PlacementPage = () => {
           {loading ? 'Evaluating...' : 'Submit Essay'}
         </button>
       </form>
-      
       {countWords(essay) < 150 && (
         <p style={{ color: 'red' }}>Your essay must contain at least 150 words.</p>
       )}
-      
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      
       {result && (
         <div style={{ marginTop: '2rem', padding: '1rem', border: '1px solid #ccc', borderRadius: '4px' }}>
           <h2>Your Writing Level: {result.level}</h2>

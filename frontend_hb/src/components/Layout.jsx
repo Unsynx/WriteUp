@@ -1,8 +1,7 @@
 // src/components/Layout.jsx
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './Layout.css'; // Basic CSS (optional if using a library)
-
+import './Layout.css';
 
 const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
   return (
@@ -13,6 +12,12 @@ const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
             WriteQuest
           </NavLink>
           <div className="nav-links">
+            <NavLink to="/">Home</NavLink>
+            <NavLink to="/search">Challenges</NavLink>
+            <NavLink to="/placement">Placement Test</NavLink>
+            <NavLink to="/tutorial">Tutorial</NavLink>
+            <NavLink to="/leaderboard">Leaderboard</NavLink>
+            <NavLink to="/badges">Badges</NavLink>
             {isAuthenticated ? (
               <>
                 <span className="welcome">Welcome, {username}!</span>
@@ -25,16 +30,13 @@ const Layout = ({ children, isAuthenticated, handleLogout, username }) => {
               <>
                 <NavLink to="/login">Login</NavLink>
                 <NavLink to="/register">Register</NavLink>
-                <NavLink to="/placement">Placement Test</NavLink>
               </>
             )}
           </div>
         </nav>
       </header>
 
-      <main className="layout-content">
-        {children}
-      </main>
+      <main className="layout-content">{children}</main>
 
       <footer className="layout-footer">
         <p>© {new Date().getFullYear()} WriteQuest. All rights reserved.</p>

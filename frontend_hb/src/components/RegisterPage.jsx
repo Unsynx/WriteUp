@@ -8,52 +8,81 @@ const RegisterPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError]       = useState('');
+  const [errors, setErrors]     = useState({});
+  const [serverError, setServerError] = useState('');
+
+  const validate = () => {
+    const errors = {};
+    if (!username) errors.username = 'Username is required.';
+    if (!email) {
+      errors.email = 'Email is required.';
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        errors.email = 'Invalid email format.';
+      }
+    }
+    if (!password) {
+      errors.password = 'Password is required.';
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters.';
+    }
+    return errors;
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setServerError('');
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({});
     try {
-      await axios.post('http://localhost:5000/api/register', {
-        username,
-        email,
-        password,
-      });
+      await axios.post('http://localhost:5000/api/register', { username, email, password });
       navigate('/login');
     } catch (err) {
-      setError('Error registering user. Email may already be in use.');
+      setServerError('Error registering user. Email may already be in use.');
     }
   };
 
   return (
-    <div>
+    <div style={{ maxWidth: '400px', margin: '0 auto' }}>
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
-        <div>
+        <div style={{ marginBottom: '1rem' }}>
           <label>Username:</label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            required />
+            style={{ width: '100%', padding: '0.5rem' }}
+          />
+          {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>}
         </div>
-        <div>
+        <div style={{ marginBottom: '1rem' }}>
           <label>Email:</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required />
+            style={{ width: '100%', padding: '0.5rem' }}
+          />
+          {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
         </div>
-        <div>
+        <div style={{ marginBottom: '1rem' }}>
           <label>Password:</label>
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required />
+            style={{ width: '100%', padding: '0.5rem' }}
+          />
+          {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit">Register</button>
+        {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
+        <button type="submit" style={{ padding: '0.75rem 1.5rem' }}>Register</button>
       </form>
       <p>
         Already have an account? <Link to="/login">Login</Link>
