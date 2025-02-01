@@ -37,7 +37,7 @@ const SearchChallenges = () => {
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ padding: '2rem', width: '100%', boxSizing: 'border-box' }}>
       <h2>Search Challenges</h2>
       <form onSubmit={handleSearch} style={{ marginBottom: '1.5rem' }}>
         <input
