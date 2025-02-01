@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
+from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import bcrypt
@@ -9,6 +10,7 @@ app = Flask(__name__)
 
 # Configuration for JWT
 app.config["JWT_SECRET_KEY"] = "your-secret-key"  # Replace with a secure secret in production
+CORS(app)
 jwt = JWTManager(app)
 
 # Setup MongoDB connection
