@@ -7,7 +7,7 @@ const LandingPage = () => {
   return (
     <>
       <div className="landing-container">
-        <h1>Welcome to WriteQuest</h1>
+        <h1>Welcome to WriteUp!</h1>
         <p>
           Engage with daily writing quests, AI-driven feedback, and exciting competitions
           that reward your progress!
