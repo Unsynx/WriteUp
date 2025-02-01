@@ -11,16 +11,10 @@ const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
       <header className="layout-header">
         <nav className="navbar">
           <NavLink to="/" className="nav-brand">
-            WriteUp
+            <img className='logo' src="src/assets/Logo.svg"/>
           </NavLink>
           <div className="nav-links">
             {/* NavLink 'activeClassName' prop doesn't work in v6. Instead use 'className' function */}
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
-            >
-              Home
-            </NavLink>
             <NavLink 
               to="/search"
               className={({ isActive }) => (isActive ? 'active-link' : undefined)}
@@ -35,7 +29,6 @@ const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
             </NavLink>
             {isAuthenticated ? (
               <>
-                <span className="welcome">Welcome, {username}!</span>
                 <NavLink 
                   to="/profile"
                   className={({ isActive }) => (isActive ? 'active-link' : undefined)}
@@ -53,12 +46,6 @@ const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
                   className={({ isActive }) => (isActive ? 'active-link' : undefined)}
                 >
                   Login
-                </NavLink>
-                <NavLink 
-                  to="/register"
-                  className={({ isActive }) => (isActive ? 'active-link' : undefined)}
-                >
-                  Register
                 </NavLink>
               </>
             )}
