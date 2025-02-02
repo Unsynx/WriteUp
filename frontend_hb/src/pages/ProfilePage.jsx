@@ -110,15 +110,6 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      {/* ----- ADDED: Tier badge image container ----- */}
-      <div className="tier-image-container">
-        <img
-          src="src/assets/tier1.svg"  // Adjust the path as needed
-          alt="Tier 1 Badge"
-          className="tier-image"
-        />
-      </div>
-
       {/* Hidden file input for image upload */}
       <input
         type="file"
@@ -129,10 +120,13 @@ const ProfilePage = () => {
       />
       <div className="profile-details">
         <h2 className="username">{profile.username}</h2>
-        <h3 className="tier">Tier: {profile.rank || 'Newbie'}</h3>
-        <button onClick={handleLogout} className="logout-btn2">
-          Logout
-        </button>
+        <div className="tier-image-container">
+          <img
+            src="src/assets/tier1.svg"  // Adjust the path as needed
+            alt="Tier 1 Badge"
+            className="tier-image"
+          />
+        </div>
       </div>
       <div className="badges-section">
         <h3>Your Badges</h3>
