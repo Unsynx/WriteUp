@@ -9,9 +9,12 @@ import datetime
 import json
 import os
 from openai import OpenAI
+import dotenv
 
 
 app = Flask(__name__)
+
+dotenv.load_dotenv()
 
 # Configuration for JWT
 app.config["JWT_SECRET_KEY"] = "your-secret-key"  # Replace with a secure secret in production
