@@ -91,7 +91,7 @@
   color: #555;
 }
 
-.logout-btn {
+.logout-btn2 {
   padding: 0.5rem 1rem;
   background-color: #03a9f4;
   border: none;
@@ -101,7 +101,7 @@
   margin-top: 1rem;
 }
 
-.logout-btn:hover {
+.logout-btn2:hover {
   background-color: #0288d1;
 }
 
@@ -190,10 +190,15 @@
 
 /* ----- ADDED: Tier Badge Image Styles ----- */
 .tier-image-container {
-  margin-top: 20px; /* Adjust spacing as needed */
+  margin-top: 50px; /* Adjust spacing as needed */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: 10;
+  position: relative;
 }
 
 .tier-image {
-  width: 120px;  /* Adjust width to suit your design */
+  width: 200px;  /* Adjust width to suit your design */
   height: auto;
 }

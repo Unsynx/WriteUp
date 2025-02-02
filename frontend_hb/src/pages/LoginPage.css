@@ -26,3 +26,7 @@
     font-style: italic;
     border-bottom: blue solid 2px;
   }
+
+  .in {
+    border: 2px lightgray solid;
+  }
