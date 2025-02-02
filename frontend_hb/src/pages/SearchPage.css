@@ -1,0 +1,30 @@
+.results {
+    display: grid;
+    list-style: none;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px; /* Spacing between items */
+    padding: 20px;
+}
+
+.result_card {
+    border: black solid 2px;
+    padding: 1em;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: ease-in-out 200ms;
+    text-align: left;
+}
+
+.result_card:hover {
+    transform: translateY(-5px);
+}
+
+.in {
+    border: lightgray 2px solid;
+}
+
+.search_section {
+    margin-left: 1em;
+    margin-right: 1em;
+    border-bottom: grey 2px solid;
+    position: sticky;
+}

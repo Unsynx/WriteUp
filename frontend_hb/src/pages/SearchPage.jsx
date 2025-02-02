@@ -1,6 +1,8 @@
 // src/components/SearchChallenges.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import './SearchPage.css'
 
 const SearchPage = () => {
   const [title, setTitle] = useState('');
@@ -43,40 +45,45 @@ const SearchPage = () => {
 
   return (
     <div style={{ padding: '2rem', width: '100%', boxSizing: 'border-box' }}>
-      <h2>Search Challenges</h2>
-      <form onSubmit={handleSearch} style={{ marginBottom: '1.5rem' }}>
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          style={{ width: '30%', padding: '0.5rem', marginRight: '1rem' }}
-        />
-        <input
-          type="text"
-          placeholder="Tags (comma separated)"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          style={{ width: '30%', padding: '0.5rem', marginRight: '1rem' }}
-        />
-        <select
-          value={difficulty}
-          onChange={(e) => setDifficulty(e.target.value)}
-          style={{ width: '20%', padding: '0.5rem', marginRight: '1rem' }}
-        >
-          <option value="">All Difficulties</option>
-          <option value="Easy" style={{ color: 'green' }}>Easy</option>
-          <option value="Medium" style={{ color: 'orange' }}>Medium</option>
-          <option value="Hard" style={{ color: 'red' }}>Hard</option>
-        </select>
-        <button type="submit" style={{ padding: '0.5rem 1rem' }}>Search</button>
-      </form>
+      <div className='search_section'>
+      <h2 className='text-4xl mb-8'>Search Challenges</h2>
+        <form onSubmit={handleSearch} style={{ marginBottom: '1.5rem' }}>
+          <input
+            className='in'
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            style={{ width: '30%', padding: '0.5rem', marginRight: '1rem' }}
+          />
+          <input
+            className='in'
+            type="text"
+            placeholder="Tags (comma separated)"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            style={{ width: '30%', padding: '0.5rem', marginRight: '1rem' }}
+          />
+          <select
+            className='in'
+            value={difficulty}
+            onChange={(e) => setDifficulty(e.target.value)}
+            style={{ width: '20%', padding: '0.5rem', marginRight: '1rem' }}
+          >
+            <option value="">All Difficulties</option>
+            <option value="Easy" style={{ color: 'green' }}>Easy</option>
+            <option value="Medium" style={{ color: 'orange' }}>Medium</option>
+            <option value="Hard" style={{ color: 'red' }}>Hard</option>
+          </select>
+          <button type="submit" style={{ padding: '0.5rem 1rem' }}>Search</button>
+        </form>
+      </div>
       {loading && <p>Loading challenges...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul style={{ listStyle: 'none', padding: 0 }}>
+      <div className='results'>
         {challenges.map(challenge => (
-          <li key={challenge._id} style={{ borderBottom: '1px solid #ccc', padding: '1rem 0' }}>
-            <h3>{challenge.title}</h3>
+          <Link key={challenge._id} className='result_card' to={"/write/" + challenge._id} state={challenge}>
+            <h3 className='text-3xl'>{challenge.title}</h3>
             <p>
               <strong>Difficulty:</strong>{' '}
               <span style={{ color: getDifficultyColor(challenge.difficulty) }}>
@@ -87,9 +94,9 @@ const SearchPage = () => {
             <p>
               <strong>Tags:</strong> {challenge.tags.join(', ')}
             </p>
-          </li>
+          </Link>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };
