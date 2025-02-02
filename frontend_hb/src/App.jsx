@@ -70,7 +70,7 @@ return (
             <SearchPage />
           </Layout>
         } />
-                <Route path="/write" element={
+                <Route path="/write/:challengeID" element={
           <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
             <WriteUpPage />
           </Layout>

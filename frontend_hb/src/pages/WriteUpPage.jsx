@@ -1,15 +1,13 @@
 // src/components/LoginPage.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router';
 
 const WriteUpPage = () => {
   const [text, setText] = useState('');
-  const [feedback, setFeedback] = useState();
-  const [showform, setShowform] = useState(true);
-  async function handleSubmit(event) {
-    event.preventDefault();
-    setShowform(false);
-    const response = await axios.post('http://127.0.0.1:5000/api/writeup', {
+
+  async function handleSubmit() {
+    await axios.post('http://localhost:5000/api/writeup', {
         "text": text
     }, {
       timeout:20000
@@ -59,33 +57,16 @@ const WriteUpPage = () => {
   }
 
 
-  return ( 
-  <div>
-    { showform && (<form onSubmit={handleSubmit}>
-            <input
-                type="input"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                style={{ width: '100%', padding: '0.5rem' }}
-            />
-            <button>Submit</button>
-    </form>)} 
-    {/* this is the uneditable essay submission */}
-    {!showform && (
-        <div>
-          <h3>Original Text:</h3>
-          <p>{text}</p>
-
-          <h3>Highlighted Text:</h3>
-          <p>{renderHighlightedText()}</p>
-        </div>
-      )}
-    {/* this is the prose feedback for the future */}
-    {!showform && (<div>
-      {feedback && feedback.future ? (<p>{feedback.future}</p>) : (<p>loading</p>)}
-      </div>)} 
-    {/* highlight system */}
-  </div>
+  return (
+    <form onSubmit={handleSubmit}>
+        <input
+            type="input"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            style={{ width: '100%', padding: '0.5rem' }}
+        />
+        <button>Submit</button>
+    </form>
   );
 };
 

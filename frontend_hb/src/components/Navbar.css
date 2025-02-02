@@ -28,6 +28,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
   
   .navbar {
@@ -92,15 +94,17 @@
   }
   
   .logout-btn {
+    border-left: black solid 2px;
     background-color: #eb9292;
     color: #fff;
     cursor: pointer;
     height: 100%;
+    padding-left: 2em;
+    padding-right: 2em;
   }
   
   .layout-content {
     flex: 1;
-    padding: 2rem;
     width: 100%;
     box-sizing: border-box;
     animation: fadeIn 0.5s ease-in;
@@ -112,7 +116,7 @@
   }
   
   .layout-footer {
-    background-color: #311b92;
+    background-color: black;
     color: #fff;
     text-align: center;
     padding: 1rem;

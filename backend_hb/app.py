@@ -1,3 +1,4 @@
+from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
@@ -5,11 +6,6 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import bcrypt
 import datetime
-import os
-from openai import OpenAI
-import dotenv
-import json
-dotenv.load_dotenv()
 
 app = Flask(__name__)
 
@@ -24,6 +20,40 @@ db = client["your_db_name"]
 users_collection = db["users"]
 challenges_collection = db["challenges"]
 progress_collection = db["progress"]  # New collection for progress tracking
+
+# Set a folder for uploaded profile pictures
+app.config['UPLOAD_FOLDER'] = 'uploads/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/api/upload-profile-picture', methods=['POST'])
+@jwt_required()
+def upload_profile_picture():
+    user_id = get_jwt_identity()
+    if 'profilePicture' not in request.files:
+        return jsonify({"msg": "No file part in the request"}), 400
+    file = request.files['profilePicture']
+    if file.filename == '':
+        return jsonify({"msg": "No file selected"}), 400
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        # Ensure the upload folder exists
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        # Here, we assume the file is served statically via a URL like /uploads/<filename>
+        picture_url = f"/uploads/{filename}"
+        # Update the user's document to include the new profile picture URL
+        users_collection.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"picture": picture_url}}
+        )
+        return jsonify({"pictureUrl": picture_url}), 200
+    else:
+        return jsonify({"msg": "File type not allowed"}), 400
 
 @app.route('/api/register', methods=['POST'])
 def register():
@@ -42,7 +72,9 @@ def register():
     users_collection.insert_one({
         "username": username,
         "email": email,
-        "password": hashed_pw
+        "password": hashed_pw,
+        "elo_history": [],
+        "badges": []
     })
     return jsonify({"msg": "User created successfully"}), 201
 
@@ -74,7 +106,8 @@ def profile():
     if user:
         return jsonify({
             "username": user["username"],
-            "email": user["email"]
+            "email": user["email"],
+            "elo_history": user["elo_history"],
         }), 200
     return jsonify({"msg": "User not found"}), 404
 
@@ -128,92 +161,25 @@ def search_challenges():
         challenge["_id"] = str(challenge["_id"])
     return jsonify(challenges), 200
 
-
-# ===========================
-# Progress Dashboard Endpoints
-# ===========================
-
-@app.route('/api/progress', methods=['GET'])
+@app.route('/api/elo', methods=['POST'])
 @jwt_required()
-def get_progress():
-    """
-    Returns a Chart.js-compatible object for the authenticated user's progress.
-    {
-        "labels": ["Week 1", "Week 2", ...],
-        "datasets": [
-            {
-                "label": "My Metric",
-                "data": [50, 65, ...],
-                "borderColor": "#03a9f4",
-                "backgroundColor": "rgba(3, 169, 244, 0.2)",
-                "tension": 0.3
-            }
-        ]
-    }
-    """
-    user_id = get_jwt_identity()
-    doc = progress_collection.find_one({"user_id": user_id})
-    if not doc:
-        # Return empty chart if no progress document is found for this user
-        return jsonify({
-            "labels": [],
-            "datasets": []
-        }), 200
-
-    # Example for a single metric (like "Vocabulary Growth")
-    chart_data = {
-        "labels": doc["labels"],    # e.g. ["Week 1", "Week 2", ...]
-        "datasets": [
-            {
-                "label": "Vocabulary Growth",  # You can customize or store multiple metrics
-                "data": doc["dataPoints"],     # e.g. [50, 65, 80, 95]
-                "borderColor": "#03a9f4",
-                "backgroundColor": "rgba(3, 169, 244, 0.2)",
-                "tension": 0.3
-            }
-        ]
-    }
-    return jsonify(chart_data), 200
-
-
-@app.route('/api/progress/add', methods=['POST'])
-@jwt_required()
-def add_progress_data():
-    """
-    Expects JSON: { "label": "Week 5", "value": 90 }
-    Appends the label/value to the user's data.
-    """
-    user_id = get_jwt_identity()
+def add_elo_point():
     data = request.get_json()
-    label = data.get("label")
-    value = data.get("value")
+    elo_point = data.get("elo")
 
-    if not label or value is None:
-        return jsonify({"msg": "Invalid data"}), 400
+    user_id = get_jwt_identity()
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    elo = list(user.get("elo_history"))
+    elo.append(elo_point)
+    if len(elo) > 10:
+        elo.pop(0)
 
-    # Find or create a doc for this user
-    doc = progress_collection.find_one({"user_id": user_id})
-    if not doc:
-        # Create a new document for the user
-        new_doc = {
-            "user_id": user_id,
-            "labels": [label],
-            "dataPoints": [value]
-        }
-        progress_collection.insert_one(new_doc)
-    else:
-        # Append new data to existing arrays
-        doc["labels"].append(label)
-        doc["dataPoints"].append(value)
-        progress_collection.update_one(
-            {"_id": doc["_id"]},
-            {"$set": {
-                "labels": doc["labels"],
-                "dataPoints": doc["dataPoints"]
-            }}
-        )
+    if user:
+        users_collection.update_one({"_id": user_id}, '{$set: { "elo_history": elo}}')
+        return jsonify({"msg": "ELO updated"}), 200
 
-    return jsonify({"msg": "Data point added successfully"}), 200
+    return jsonify({"msg": "User not found"}), 404
+
 
 
 @app.route('/api/writeup', methods=['POST'])

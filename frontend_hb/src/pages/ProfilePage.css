@@ -1,0 +1,206 @@
+/* src/components/ProfilePage.css */
+.profile-page {
+  font-family: 'IBM Plex Mono', monospace;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-header {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background-color: #f0f0f0;
+  border-bottom: black 2px solid;
+}
+
+.cover-image {
+  width: 100%;
+  height: 100%;
+  background-image: url('/path/to/cover-image.jpg'); /* Update with your cover image path */
+  background-size: cover;
+  background-position: center;
+}
+
+.profile-picture-container {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 200px;
+  border: 2px solid black;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* When no picture is present, display a plus icon */
+.no-picture {
+  width: 100%;
+  height: 100%;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plus-icon {
+  font-size: 2.5rem;
+  color: #888;
+}
+
+/* Overlay displayed during image upload */
+.uploading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.profile-details {
+  margin-top: 40px; /* Space for the overlapping profile picture */
+  padding: 1rem;
+}
+
+.username {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.tier {
+  margin: 0.5rem 0;
+  font-size: 1.5rem;
+  color: #555;
+}
+
+.logout-btn2 {
+  padding: 0.5rem 1rem;
+  background-color: #03a9f4;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.logout-btn2:hover {
+  background-color: #0288d1;
+}
+
+.badges-section {
+  margin: 2rem auto;
+  max-width: 800px;
+  padding: 1rem;
+  text-align: left;
+}
+
+.badges-section h3 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.badges-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+}
+
+.badge img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+.badge span {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.error-message {
+  color: red;
+  margin-top: 1rem;
+}
+
+/* ----- ADDED: Skeleton Loader Styles ----- */
+.profile-skeleton {
+  margin: 2rem auto;
+  max-width: 800px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.skeleton {
+  background-color: #eee;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.cover-skeleton {
+  width: 100%;
+  height: 250px;
+}
+
+.avatar-skeleton {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: -50px auto 1rem auto;
+}
+
+.text-skeleton {
+  width: 60%;
+  height: 20px;
+  margin: 0.5rem auto;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.55; }
+  100% { opacity: 1; }
+}
+
+/* ----- ADDED: Tier Badge Image Styles ----- */
+.tier-image-container {
+  margin-top: 7px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: 10;
+  position: relative;
+}
+
+.tier-image {
+  width: auto;  /* Adjust width to suit your design */
+  height: 44px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
