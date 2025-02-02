@@ -1,53 +1,61 @@
-.results {
-    display: grid;
-    list-style: none;
-    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    gap: 20px; /* Spacing between items */
-    padding: 20px;
-}
+/* Existing CSS for .tags, .tag, etc., remain unchanged */
 
-.result_card {
-    border: black solid 2px;
-    padding: 1em;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    transition: ease-in-out 200ms;
-    text-align: left;
+/* New styles for the tag selector component */
+.tag-selector {
+    position: relative;
     display: flex;
-    flex-direction: column;
-}
-
-.result_card:hover {
-    transform: translateY(-5px);
-}
-
-.in {
-    border: lightgray 2px solid;
-}
-
-.search_section {
-    margin-left: 1em;
-    margin-right: 1em;
-    border-bottom: grey 2px solid;
-    position: sticky;
-}
-
-.tags {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: end;
-}
-
-.tag {
+    flex-wrap: wrap;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 5px;
+    min-width: 200px;
+    flex: 1;
+  }
+  
+  .tag-pill {
     background-color: lightgray;
     border-radius: 5px;
-    margin-right: 5px;
     padding: 2px 7px;
-    height: fit-content;
-}
-
-.chal_desc {
-    margin-bottom: 7px;
-}
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+  
+  .remove-tag {
+    cursor: pointer;
+    margin-left: 5px;
+    font-weight: bold;
+  }
+  
+  .tag-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    min-width: 100px;
+    padding: 5px;
+  }
+  
+  .tag-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid lightgray;
+    border-top: none;
+    z-index: 10;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  
+  .suggestion-item {
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #f0f0f0;
+  }
+  
