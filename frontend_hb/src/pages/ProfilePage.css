@@ -187,3 +187,13 @@
   50% { opacity: 0.55; }
   100% { opacity: 1; }
 }
+
+/* ----- ADDED: Tier Badge Image Styles ----- */
+.tier-image-container {
+  margin-top: 20px; /* Adjust spacing as needed */
+}
+
+.tier-image {
+  width: 120px;  /* Adjust width to suit your design */
+  height: auto;
+}
