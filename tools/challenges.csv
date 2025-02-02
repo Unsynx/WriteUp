@@ -1,3 +1,53 @@
-title,prompt,tags,difficulty,narrative,descriptive,prose,poetic,argumentative,comaparative
-Test 1,Write something,narrative,Easy,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE
-Test 2,Something else,prose-poetic-argumentative,Hard,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE
+title,prompt,tags,difficulty,narrative,descriptive,prose,poetic,argumentative,comparative
+Shaping Perspectives Through Knowledge,"Show how your knowledge of a text’s context shaped your understanding of a perspective it
+communicated.",narrative-descriptive,Easy,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE
+"Transforming Text, Shifting Interpretations","Explore the effects on your interpretation when a text was transformed into another genre or
+medium.",narrative-prose-poetic,Easy,TRUE,FALSE,TRUE,TRUE,FALSE,FALSE
+Engaging with Critical Issues,Discuss how a text engages with issues or ideas significant within its context.,narrative-descriptive,Medium,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE
+Redefining Genre Boundaries,"Discuss how a text extended your understanding of its genre by incorporating or manipulating
+conventions in ways you did not expect.",descriptive,Easy,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE
+Questioning Assumptions Through Close Analysis,Show how close analysis of a text led you to question the assumptions and/or values within it.,descriptive,Hard,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE
+Language Features That Challenge Perspectives,"Evaluate how the perspective in a text was offered through the selection of language features
+that generate controversy.",descriptive-argumentative,Medium,FALSE,TRUE,FALSE,FALSE,TRUE,FALSE
+Reimagining Common Experiences,Compose an interpretive text which represents a common event or experience in a new light.,narrative-poetic,Easy,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE
+Persuading and Commending Community,"Craft a voice, in a persuasive form, that seeks to reassure or commend a community.",narrative,Hard,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE
+Imagining the Name Unrevealed,"Craft an imaginative text that develops a perspective inspired by the following line:
+‘I will never be able to speak my real name, the name I was born with, if I had ever been given
+one at all.’",narrative,Medium,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE
+From Image Inspiration to Genre Transformation,"Compose two short texts inspired by the image below, where the second adapts the first into a
+different genre.",narrative-poetic,Easy,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE
+Bridging Contexts Through Text,"With reference to at least one text, discuss why a text created in one context may resonate with
+an audience in another context.",narrative-descriptive,Hard,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE
+Unveiling New Meanings in Transformation,"Evaluate how a text’s meaning changed when it was transformed into a different genre or
+medium.",narrative-poetic,Easy,TRUE,FALSE,FALSE,TRUE,FALSE,FALSE
+Evaluating Perspectives Through Diverse Interpretations,Consider how other interpretations of a text helped you evaluate its perspective/s,prose,Medium,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE
+Conforming and Challenging Audience Expectations,"Explain how at least one text conforms to generic conventions while still challenging its
+audience.",descriptive-prose,Easy,FALSE,TRUE,TRUE,FALSE,FALSE,FALSE
+Reflecting on Life's Subtle Moments,"Our greatest experiences are our quietest moments’.
+Create an interpretive text in which you reflect on this quotation.",narrative-argumentative-comparative,Hard,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE
+Enhancing Ideas Through Form,"Create a text in a form of your choice that experiments with structural features to enhance its
+central idea.",prose-poetic,Medium,FALSE,FALSE,TRUE,TRUE,FALSE,FALSE
+The Impact of Marginalised Voices,"Discuss how your awareness of the omissions and/or marginalisations within a text shaped your
+response to its perspective(s). ",narrative-descriptive-argumentative,Hard,TRUE,TRUE,FALSE,FALSE,TRUE,FALSE
+Analyzing Genre-Specific Choices,"With reference to at least one text, discuss the stylistic choices made by a creator in
+constructing a text within a particular genre.",prose,Easy,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE
+Reflecting Context Through Narrative Tone,Explore how voice within at least one text reflects the values and attitudes of a particular context.,argumentative-comparative,Hard,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE
+Infusing Deeper Meaning Through the Human Voice,"‘Words mean more than what is set down on paper. It takes the human voice to infuse them with
+deeper meaning.’
+In a form of your choice, explore the ideas within the quote above.",descriptive,Hard,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE
+Crafting Imaginative Conclusions,"Craft an imaginative text which concludes with the following line:
+‘Some say bossy, I say benevolent overlord.’",poetic-argumentative,Medium,FALSE,FALSE,FALSE,TRUE,TRUE,FALSE
+Reinterpreting Travel Through New Perspectives,"‘One’s destination is never a place but rather a new way of looking at things.’
+Using this idea as a central theme, construct an interpretive text that reflects on a travel
+experience.",descriptive-prose,Hard,FALSE,TRUE,TRUE,FALSE,FALSE,FALSE
+Uncovering Identity Through Text,"Show how at least one text reveals that the values of individuals are shaped by their
+circumstances. ",prose,Medium,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE
+Weaving Multiple Perspectives,Explore how different perspectives on a controversy have been represented in at least one text.,prose,Medium,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE
+Revealing Inner Conflicts Through Voice,Discuss how voice has been crafted to reveal an inner or hidden conflict in at least one text. ,argumentative,Easy,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE
+Disrupting Audiences with Language and Structure,"How have language or structural innovations been used to unsettle an audience in at least one
+text?",poetic,Hard,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE
+Imagination in Unconventional Settings,Create an imaginative text in a particular genre but with an atypical setting.,narrative-descriptive-poetic,Medium,TRUE,TRUE,FALSE,TRUE,FALSE,FALSE
+Persuading a Resistant Audience,"‘I don’t think you quite understand the ramifications of this decision.’
+Incorporate this statement into a persuasive text for a resistant audience. ",descriptive-prose,Easy,FALSE,TRUE,TRUE,FALSE,FALSE,FALSE
+Lessons Through Personal Connections,"Compose an interpretive text to represent an encounter with a person who taught you something
+about yourself.",narrative-poetic-argumentative-comparative,Medium,TRUE,FALSE,FALSE,TRUE,TRUE,TRUE

@@ -23,6 +23,7 @@ const SearchPage = () => {
     try {
       const response = await axios.get('http://localhost:5000/api/challenges', { params });
       setChallenges(response.data);
+      console.log(response.data)
     } catch (err) {
       setError('Error fetching challenges. Please try again.');
     } finally {
@@ -83,17 +84,19 @@ const SearchPage = () => {
       <div className='results'>
         {challenges.map(challenge => (
           <Link key={challenge._id} className='result_card' to={"/write/" + challenge._id} state={challenge}>
-            <h3 className='text-3xl'>{challenge.title}</h3>
+            <h3 className='text-3xl mb-3'>{challenge.title}</h3>
             <p>
               <strong>Difficulty:</strong>{' '}
               <span style={{ color: getDifficultyColor(challenge.difficulty) }}>
                 {challenge.difficulty}
               </span>
             </p>
-            <p>{challenge.essay_prompt}</p>
-            <p>
-              <strong>Tags:</strong> {challenge.tags.join(', ')}
-            </p>
+            <p className='chal_desc'>{challenge.essay_prompt}</p>
+            <div className='tags'>
+              {challenge.tags.map((tag) => {
+                return <div className='tag'><p>{tag}</p></div>
+              })}
+            </div>
           </Link>
         ))}
       </div>
