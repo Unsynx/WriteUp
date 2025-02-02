@@ -51,3 +51,29 @@
 .chal_desc {
     margin-bottom: 7px;
 }
+
+.search-tag {
+    display: flex;
+    direction: row;
+    background: lightgray;
+
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 2px 7px;
+    height: fit-content;
+}
+
+.search_button {
+    border: black 2px solid;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: ease-in-out 200ms;
+}
+
+.search_button:hover {
+    transform: translateY(-5px);
+}
+
+.selected-tags {
+    position: absolute;
+    transform: translateY(-35px);
+}

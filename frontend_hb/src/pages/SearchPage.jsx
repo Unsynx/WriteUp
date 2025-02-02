@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import './SearchPage.css';
 
 const availableTags = [
-  "Narrative", 
-  "Descriptive", 
-  "Prose", 
-  "Poetic", 
-  "Argumentative", 
-  "Comparative"
+  "narrative", 
+  "descriptive", 
+  "prose", 
+  "poetic", 
+  "argumentative", 
+  "comparative"
 ];
 
 const SearchPage = () => {
@@ -112,33 +112,20 @@ const SearchPage = () => {
       <div className='search_section'>
         <h2 className='text-4xl mb-8'>Search Challenges</h2>
         <form onSubmit={handleSearch} style={{ marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div style={{ display: 'flex', gap: '1rem' }}>
+          <div style={{ display: 'flex', gap: '1rem'}}>
             <input
               className='in'
               type="text"
               placeholder="Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              style={{ flex: '1', padding: '0.5rem' }}
+              style={{width: "500px", paddingLeft: '0.5rem' }}
             />
-            <select
-              className='in'
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
-              style={{ width: '120px', padding: '0.5rem' }}
-            >
-              <option value="">All</option>
-              <option value="Easy" style={{ color: 'green' }}>Easy</option>
-              <option value="Medium" style={{ color: 'orange' }}>Medium</option>
-              <option value="Hard" style={{ color: 'red' }}>Hard</option>
-            </select>
-          </div>
-
           {/* New Tag Input Section */}
-          <div className="tag-input-container" style={{ position: 'relative' }}>
+          <div className="tag-input-container" style={{ position: 'relative', flex: '1' }}>
             <div className="selected-tags" style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
               {selectedTags.map((tag, index) => (
-                <div className="tag" key={index}>
+                <div className="search-tag" key={index}>
                   <p style={{ margin: 0 }}>{tag}</p>
                   <span className="remove-tag" onClick={() => removeTag(tag)} style={{ cursor: 'pointer', marginLeft: '5px' }}>x</span>
                 </div>
@@ -151,7 +138,7 @@ const SearchPage = () => {
               value={tagInput}
               onChange={handleTagInputChange}
               onKeyDown={handleTagKeyDown}
-              style={{ width: '100%', padding: '0.5rem', marginTop: '5px' }}
+              style={{ width: '100%', padding: '0.5rem' }}
             />
             {suggestions.length > 0 && (
               <div className="tag-suggestions" style={{ position: 'absolute', top: '100%', left: 0, right: 0, backgroundColor: '#fff', border: '1px solid #ccc', zIndex: 10 }}>
@@ -163,12 +150,25 @@ const SearchPage = () => {
               </div>
             )}
           </div>
+          <select
+              className='in'
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+              style={{ width: '120px', padding: '0.5rem' }}
+            >
+              <option value="">All</option>
+              <option value="Easy" style={{ color: 'green' }}>Easy</option>
+              <option value="Medium" style={{ color: 'orange' }}>Medium</option>
+              <option value="Hard" style={{ color: 'red' }}>Hard</option>
+            </select>
 
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <button type="submit" style={{ padding: '0.5rem 1rem' }}>Search</button>
-            <button type="button" onClick={() => { clearFilters(); handleSearch(); }} style={{ padding: '0.5rem 1rem' }}>
+
+            <div style={{ display: 'flex', gap: '1rem' }}>
+            <button type="submit" style={{ padding: '0.5rem 1rem' }} className='search_button'>Search</button>
+            <button type="button" onClick={() => { clearFilters(); handleSearch(); }} style={{ padding: '0.5rem 1rem' }} className='search_button'>
               Clear
             </button>
+          </div>
           </div>
         </form>
       </div>
