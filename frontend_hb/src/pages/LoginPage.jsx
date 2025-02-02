@@ -72,7 +72,8 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
   };
 
   return (
-    <div className="log_con">
+    <div className='full_section_white'>
+      <div className="log_con">
       <div>
         <h2 className="text-4xl text-center mb-5">Login</h2>
         <form onSubmit={handleLogin}>
@@ -115,6 +116,7 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
           Don’t have an account? <Link to="/register" className="regis_l">Register</Link>
         </p>
       </div>
+    </div>
     </div>
   );
 };

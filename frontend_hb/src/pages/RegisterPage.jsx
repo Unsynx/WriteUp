@@ -52,6 +52,7 @@ const RegisterPage = () => {
   };
 
   return (
+    <div className='full_section_white'>
     <div className='log_con'>
       <div>
         <h2 className='text-4xl text-center mb-5'>Make an Account</h2>
@@ -109,6 +110,7 @@ const RegisterPage = () => {
           Already have an account? <Link to="/login" className='regis_l'>Login</Link>
         </p>
       </div>
+    </div>
     </div>
   );
 };

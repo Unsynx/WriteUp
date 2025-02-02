@@ -131,3 +131,11 @@
     width: 100%;
   }
   
+.full_section_white {
+  height: 84vh;
+  width: 100%;
+
+  background-color: white;
+
+  padding-top: 5em;
+}

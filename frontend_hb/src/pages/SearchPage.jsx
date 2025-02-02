@@ -108,7 +108,7 @@ const SearchPage = () => {
   }, []);
 
   return (
-    <div style={{ padding: '2rem', width: '100%', boxSizing: 'border-box' }}>
+    <div style={{ padding: '2rem', width: '100%', boxSizing: 'border-box', backgroundColor: "white"}}>
       <div className='search_section'>
         <h2 className='text-4xl mb-8'>Search Challenges</h2>
         <form onSubmit={handleSearch} style={{ marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>

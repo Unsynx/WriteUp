@@ -92,6 +92,8 @@
 
   .layout-container {
     background-image: url("src/assets/hero.png");
+    background-repeat: no-repeat;
+    background-color: white;
   }
 
   .hero_center {
