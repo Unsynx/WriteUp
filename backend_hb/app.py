@@ -145,41 +145,40 @@ def create_challenge():
 
 @app.route('/api/challenges', methods=['GET'])
 def search_challenges():
+    # Get search parameters and trim extra spaces.
     title = request.args.get("title", "").strip()
-    tags_param = request.args.get("tags", "").strip()  # Comma-separated
+    tags_param = request.args.get("tags", "").strip()  # Expect a comma-separated string.
     difficulty = request.args.get("difficulty", "").strip()
 
-    # We'll build our query via an $and array so each condition (title, difficulty, tags) is enforced.
+    # Build an array of conditions to be combined with $and.
     and_clauses = []
 
-    # Title Filter
+    # Title filter: Case-insensitive partial match.
     if title:
-        # Case-insensitive partial match on title
         and_clauses.append({"title": {"$regex": title, "$options": "i"}})
 
-    # Difficulty Filter
+    # Difficulty filter: Exact match.
     if difficulty:
-        # Exact match on difficulty
         and_clauses.append({"difficulty": difficulty})
 
-    # Tags Filter (all tags must be present in the challenge)
+    # Tags filter: Only challenges that have ALL provided tags.
     if tags_param:
-        # Convert comma-separated string into a list of trimmed tags
+        # Convert the comma-separated string into a list.
         tags_list = [tag.strip() for tag in tags_param.split(",") if tag.strip()]
         if tags_list:
-            # For all tags to appear, use "$all"
-            # e.g., "tags": {"$all": ["Narrative","Poetic"] }
+            # Using $all ensures that every tag in tags_list is present in the challenge's tags field.
             and_clauses.append({"tags": {"$all": tags_list}})
 
-    # If no filters were specified, the final query remains empty => matches all docs
-    # Otherwise, we build an $and query
+    # If no filters were specified, the query remains empty (matches all challenges).
     final_query = {"$and": and_clauses} if and_clauses else {}
 
+    # Query the challenges collection.
     challenges = list(challenges_collection.find(final_query))
 
-    # Convert ObjectId to string for JSON serialization
+    # Convert ObjectIds to strings for JSON serialization.
     for challenge in challenges:
         challenge["_id"] = str(challenge["_id"])
+
     return jsonify(challenges), 200
 
 @app.route('/api/elo', methods=['POST'])
