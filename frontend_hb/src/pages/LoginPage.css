@@ -1,0 +1,28 @@
+/* .log_con should now fill the remaining space */
+.log_con {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 400px;
+    margin: auto;
+    margin-top: 5em;
+  }
+  
+  .login_button {
+    padding: 0.5rem 1.5rem;
+    border: black solid 2px;
+    transition: ease-in-out 200ms;
+    margin-bottom: 7px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  .login_button:hover {
+    transform: translateY(-5px);
+  }
+
+  .regis_l {
+    color: blue;
+    font-style: italic;
+    border-bottom: blue solid 2px;
+  }

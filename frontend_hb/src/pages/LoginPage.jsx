@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import "./LoginPage.css"
 
 const LoginPage = ({ setIsAuthenticated, setUsername }) => {
   const navigate = useNavigate();
@@ -62,35 +63,39 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
   })
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto' }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
-          />
-          {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
-          />
-          {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
-        </div>
-        {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
-        <button type="submit" style={{ padding: '0.75rem 1.5rem' }}>Login</button>
-      </form>
-      <p>
-        Don't have an account? <Link to="/register">Register</Link>
-      </p>
+    <div className='log_con'>
+      <div>
+        <h2 className='text-4xl text-center mb-5'>Login</h2>
+        <form onSubmit={handleLogin}>
+          <div style={{ marginBottom: '1rem' }}>
+            <label>Email:</label>
+            <input
+              className='in'
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ width: '100%', padding: '0.5rem' }}
+            />
+            {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <label>Password:</label>
+            <input
+              className='in'
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ width: '100%', padding: '0.5rem' }}
+            />
+            {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
+          </div>
+          {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
+          <button type="submit" className='login_button'>Login</button>
+        </form>
+        <p>
+          Don't have an account? <Link to="/register" className='regis_l'>Register</Link>
+        </p>
+      </div>
     </div>
   );
 };

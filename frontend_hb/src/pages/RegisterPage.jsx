@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import "./LoginPage.css"
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -48,45 +49,50 @@ const RegisterPage = () => {
   };
 
   return (
-    <div style={{ padding: '2rem', width: '100%', boxSizing: 'border-box' }}>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
-          />
-          {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>}
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
-          />
-          {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
-        </div>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: '100%', padding: '0.5rem' }}
-          />
-          {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
-        </div>
-        {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
-        <button type="submit" style={{ padding: '0.75rem 1.5rem' }}>Register</button>
-      </form>
-      <p>
-        Already have an account? <Link to="/login">Login</Link>
-      </p>
+
+    <div className='log_con'>
+      <div>
+        <h2 className='text-4xl text-center mb-5'>Make an Account</h2>
+        <form onSubmit={handleRegister}>
+          <div style={{ marginBottom: '1rem' }}>
+            <label>Username:</label>
+            <input
+              className='in'
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={{ width: '100%', padding: '0.5rem' }}
+            />
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <label>Email:</label>
+            <input
+              className='in'
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ width: '100%', padding: '0.5rem' }}
+            />
+            {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            <label>Password:</label>
+            <input
+              className='in'
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ width: '100%', padding: '0.5rem' }}
+            />
+            {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
+          </div>
+          {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
+          <button type="submit" className='login_button'>Register</button>
+        </form>
+        <p>
+        Already have an account? <Link to="/login" className='regis_l'>Login</Link>
+        </p>
+      </div>
     </div>
   );
 };
