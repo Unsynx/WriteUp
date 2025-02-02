@@ -8,6 +8,8 @@ import bcrypt
 import datetime
 import json
 import os
+from openai import OpenAI
+
 
 app = Flask(__name__)
 
@@ -141,8 +143,6 @@ def create_challenge():
 
 @app.route('/api/challenges', methods=['GET'])
 def search_challenges():
-    import re
-
     title = request.args.get("title", "").strip()
     tags_param = request.args.get("tags", "").strip()  # Comma-separated
     difficulty = request.args.get("difficulty", "").strip()
