@@ -4,6 +4,7 @@ import axios from 'axios';
 import { data, useLocation } from 'react-router';
 import './WriteUpPage.css'
 import { TailSpin } from 'react-loading-icons'
+import ChallengeGraph from '../components/ChallengeGraph.jsx'
 
 const WriteUpPage = () => {
   const location = useLocation();
@@ -12,6 +13,7 @@ const WriteUpPage = () => {
   const [text, setText] = useState('');
   const [feedback, setFeedback] = useState({});
   const [submitted, setSubmitted] = useState(false)
+  const [graphData, setGraphData] = useState([]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -27,17 +29,15 @@ const WriteUpPage = () => {
     setFeedback(response.data);
     console.log(response.data)
 
-    axios.post('http://127.0.0.1:5000/api/complete_challenge', 
-      { 'elo': response.data.elo,
+    const r2 = await axios.post('http://127.0.0.1:5000/api/complete_challenge', { 
+        'elo': response.data.elo,
         'challenge_id': challenge._id
        }, 
       { headers: { Authorization: `Bearer ${token}` } }
     )
 
-    console.log(response.data.elo)
+    setGraphData(r2.data.scores)
   }
-
-
 
 
   function renderHighlightedText() {
@@ -132,18 +132,26 @@ return (
           </span>
         </p>
         <p>{challenge.essay_prompt}</p>
-        <br />
-        <hr />
-        <br />
+        <br /><hr /><br />
 
           {submitted && (<div>
-            {feedback && feedback.future ? (<p>{feedback.future}</p>) : (<p>Loading Feedback...</p>)}
+            {feedback && feedback.future ? (
+              <div>
+                <p>{feedback.future}</p>
+                <br /><hr /><br />
+                <p className='text-2xl mb-5'>Your score: {feedback.elo}</p>
+                <ChallengeGraph values={graphData} />
+              </div>
+              ) : (
+              <p>Loading Feedback...</p>)
+            }
             </div>)} 
+
         </div>
       </div>
     </div>
   </div>
-);
+)
 }
 
 export default WriteUpPage;

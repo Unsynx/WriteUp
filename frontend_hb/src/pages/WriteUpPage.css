@@ -3,6 +3,7 @@
     grid-template-columns: auto 500px;
     background-color: white;
     width: 100%;
+    max-height: 84vh;
     min-height: 84vh;
     overflow: hidden;
 }

@@ -137,7 +137,8 @@ def create_challenge():
         "tags": tags,
         "difficulty": difficulty,
         "essay_prompt": essay_prompt,
-        "created_at": datetime.datetime.now(datetime.timezone.utc)
+        "created_at": datetime.datetime.now(datetime.timezone.utc),
+        "scores": []
     }
 
     result = challenges_collection.insert_one(challenge)
@@ -212,10 +213,21 @@ def add_elo_point():
     complete = list(user.get("complete"))
     complete.append(ObjectId(challenge_id))
 
+    challenge = challenges_collection.find_one({"_id": ObjectId(challenge_id)})
+    scores = challenge.get("scores")
+    if scores is None:
+        scores = []
+    else:
+        scores = list(scores)
+
+    scores.append(elo_point)
+
+    challenges_collection.update_one({"_id": ObjectId(challenge_id)},{"$set": {"scores": scores}})
+
     if user:
         users_collection.update_one({"_id": ObjectId(user_id)},
             {"$set": {"elo_history": elo, "complete": complete}})
-        return jsonify({"msg": "Challenge Completion Updated"}), 200
+        return jsonify({"msg": "Challenge Completion Updated", "scores": scores}), 200
     return jsonify({"msg": "User not found"}), 404
 
 @app.route('/api/writeup', methods=['POST'])

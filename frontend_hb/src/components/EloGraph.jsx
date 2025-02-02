@@ -26,7 +26,7 @@ const EloGraph = ({ elo_history }) => {
     labels: elo_history.map((_, index) => index + 1), // Initial labels based on history length
     datasets: [
       {
-        label: 'ELO Progress',
+        label: 'Score',
         data: elo_history,
         borderColor: 'black',
         backgroundColor: 'rgba(3, 169, 244, 0.2)',
@@ -68,7 +68,7 @@ const EloGraph = ({ elo_history }) => {
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
-      <h2>ELO Over Time</h2>
+      <h2>User scores</h2>
       <Line data={chartData} options={options} />
     </div>
   );
