@@ -19,13 +19,7 @@ const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
               to="/search"
               className={({ isActive }) => (isActive ? 'active-link' : undefined)}
             >
-              Challenges
-            </NavLink>
-            <NavLink 
-              to="/placement"
-              className={({ isActive }) => (isActive ? 'active-link' : undefined)}
-            >
-              Placement Test
+              View Challenges
             </NavLink>
             {isAuthenticated ? (
               <>

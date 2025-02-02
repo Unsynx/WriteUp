@@ -94,10 +94,13 @@
   }
   
   .logout-btn {
+    border-left: black solid 2px;
     background-color: #eb9292;
     color: #fff;
     cursor: pointer;
     height: 100%;
+    padding-left: 2em;
+    padding-right: 2em;
   }
   
   .layout-content {

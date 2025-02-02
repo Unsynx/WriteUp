@@ -47,7 +47,7 @@ return (
         } />
         <Route path="/login" element={
           <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            {isAuthenticated ? <Navigate to="/profile" /> : <LoginPage setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} />}
+            {<LoginPage setIsAuthenticated={setIsAuthenticated} setUsername={setUsername} />}
           </Layout>
         } />
         <Route path="/register" element={

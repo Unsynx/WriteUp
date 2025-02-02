@@ -24,6 +24,9 @@ const PlacementPage = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/placement', { essay });
       setResult(response.data);
+
+      // Do placement logic
+      
     } catch (err) {
       setError('Error evaluating your essay. Please try again.');
     } finally {

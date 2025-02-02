@@ -37,7 +37,8 @@ def register():
     users_collection.insert_one({
         "username": username,
         "email": email,
-        "password": hashed_pw
+        "password": hashed_pw,
+        "initial_placement": "false"
     })
     return jsonify({"msg": "User created successfully"}), 201
 
@@ -55,7 +56,8 @@ def login():
         return jsonify({
             "access_token": access_token,
             "username": user["username"],
-            "email": user["email"]
+            "email": user["email"],
+            "initial_placement": user["initial_placement"]
         }), 200
 
     return jsonify({"msg": "Invalid credentials"}), 401

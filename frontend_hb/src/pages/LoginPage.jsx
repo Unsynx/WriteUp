@@ -1,5 +1,5 @@
 // src/components/LoginPage.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -43,11 +43,23 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
       localStorage.setItem('username', response.data.username);
       setIsAuthenticated(true);
       setUsername(response.data.username);
-      navigate('/profile');
+
+      if (response.data.initial_placement === 'true') {
+        navigate('/profile');
+      } else {
+        navigate('/placement');
+      }
+
     } catch (err) {
       setServerError('Invalid credentials. Please try again.');
     }
   };
+
+  useEffect(() => {
+    if (localStorage.getItem('token') !== null) {
+      navigate('/profile');
+    }
+  })
 
   return (
     <div style={{ maxWidth: '400px', margin: '0 auto' }}>
