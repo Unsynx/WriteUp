@@ -19,7 +19,7 @@ const Navbar = ({ children, isAuthenticated, username }) => {
               to="/search"
               className={({ isActive }) => (isActive ? 'active-link' : undefined)}
             >
-              Writting Challenges
+              Writing Challenges
             </NavLink>
             {isAuthenticated ? (
               <>

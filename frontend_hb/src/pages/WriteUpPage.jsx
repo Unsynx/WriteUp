@@ -103,10 +103,7 @@ return (
   <div className='write_cont'>
     <div className='user_col'>
       {submitted ? (
-        <div>
-          <h3>Original Text:</h3>
-          <p>{text}</p>
-          <h3>Highlighted Text:</h3>
+        <div className='p-5'>
           <p>{renderHighlightedText()}</p>
         </div>
       ) : (
@@ -147,6 +144,7 @@ return (
           {submitted && (<div>
             {feedback && feedback.future ? (
               <div>
+                
                 <p>{feedback.future}</p>
                 <br /><hr /><br />
                 <p className='text-2xl mb-5'>Your score: {feedback.elo}</p>
