@@ -129,7 +129,7 @@ function average(array) {
         </div>
         
       </div>
-      <p className='text-2xl'>ELO: {Math.floor(average(profile.elo_history))}</p>
+      <p className='text-2xl'>Skill Ranking: {Math.floor(average(profile.elo_history))}</p>
       
       <EloGraph elo_history={profile.elo_history}/>
       <div className="badges-section">

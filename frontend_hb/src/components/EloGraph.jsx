@@ -68,7 +68,7 @@ const EloGraph = ({ elo_history }) => {
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
-      <h2>ELO Over Time</h2>
+      <h2>Skill Over Time</h2>
       <Line data={chartData} options={options} />
     </div>
   );

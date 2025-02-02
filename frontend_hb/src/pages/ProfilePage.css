@@ -202,7 +202,7 @@
 .tier-image {
   width: auto;  /* Adjust width to suit your design */
   height: 44px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  filter: drop-shadow(rgba(149, 157, 165, 0.2) 0px 8px 24px);
 }
 
 .profile-page {
