@@ -13,7 +13,12 @@ challenges_collection = db["challenges"]
 with open("challenges.csv", 'r') as f:
     csv_reader = csv.reader(f)
 
+    header = True
     for row in csv_reader:
+        if header:
+            header = False
+            continue
+
         title = row[0]
         essay_prompt = row[1]
         tags = row[2].split("-")
