@@ -14,6 +14,8 @@ const WriteUpPage = () => {
   const [feedback, setFeedback] = useState({});
   const [submitted, setSubmitted] = useState(false)
   const [graphData, setGraphData] = useState([]);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,7 +24,7 @@ const WriteUpPage = () => {
     const token = localStorage.getItem('token');
 
     const response = await axios.post('http://127.0.0.1:5000/api/writeup', 
-      { 'text': text }, 
+      { 'text': text, 'prompt': challenge.essay_prompt }, 
       { headers: { Authorization: `Bearer ${token}` } }, 
       { timeout: 20000 }
     )
@@ -41,49 +43,53 @@ const WriteUpPage = () => {
 
 
   function renderHighlightedText() {
-    // If there is no feedback or no highlights, return the plain text.
-    if (!feedback || !feedback.highlights) return "";
-
+    if (!feedback || !feedback.highlights) return text;
+  
     let segments = [];
-
+  
     for (let i = 0; i < feedback.highlights.length; i++) {
-      var [start, end] = feedback.highlights[i].range;
-      var startNext;
-      try {
-        startNext = feedback.highlights[i + 1].range[0];
-      } catch (e) { 
-        startNext = text.length
-      }
-      console.log(start, end)
-      console.log(end, startNext)
-
-      // Add the highlighted text.
+      let [start, end] = feedback.highlights[i].range;
+      let startNext = feedback.highlights[i + 1]?.range?.[0] || text.length;
+  
+      // Change color based on hover state
+      const bgColor = hoveredIndex === i ? 'lightblue' : 'yellow';
+  
+      // Add the highlighted text
       segments.push(
-        <span key={`highlight-${i}`} style={{ backgroundColor: 'yellow' }}>
+        <span 
+          key={`highlight-${i}`} 
+          style={{ backgroundColor: bgColor, transition: "background-color 0.2s ease-in-out" }}
+        >
           {text.substring(start, end)}
         </span>
       );
   
+      // Add non-highlighted text
       segments.push(
         <span key={`text-${i}`} style={{ backgroundColor: 'white' }}>
           {text.substring(end, startNext)}
         </span>
       );
     }
-
+  
     return segments;
   }
+  
 
   function renderAdvice() {
     if (!feedback || !feedback.highlights) return text;
-
-    return feedback.highlights.map(sec => (
-      <>
-        <h3 className='text-xl bold italic'>"{text.substring(sec.range[0], sec.range[1])}"</h3>
+  
+    return feedback.highlights.map((sec, index) => (
+      <div 
+        key={index} 
+        onMouseEnter={() => setHoveredIndex(index)} 
+        onMouseLeave={() => setHoveredIndex(null)}
+        style={{ cursor: 'pointer', transition: "color 0.2s ease-in-out" }}
+      >
+        <h3 className='text-xl bold italic'>" {text.substring(sec.range[0], sec.range[1])} "</h3>
         <p className='mb-5 text-slate-500'>{sec.comment}</p>
-      </>
-    ))
-
+      </div>
+    ));
   }
 
 // Helper for color-coding difficulty.

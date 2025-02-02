@@ -235,6 +235,8 @@ def add_elo_point():
 def getHighlights():
     data = request.get_json()
     essay = data.get("text")
+    prompt = data.get("prompt")
+
     if not essay:
         return jsonify({"msg": "No essay provided"}), 400
     query = f"""Here's an essay for review. Please provide feedback:
@@ -249,6 +251,8 @@ def getHighlights():
     {essay}
 
     Please ensure the feedback is constructive and provides actionable insights for improvement.
+    Here are the criteria the essay must met:
+    {prompt}
     """
     client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
