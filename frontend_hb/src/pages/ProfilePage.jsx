@@ -72,8 +72,16 @@ const ProfilePage = () => {
     }
   };
 
+  // ----- ADDED: Skeleton loader while profile data is loading -----
   if (!profile) {
-    return <div>Loading profile...</div>;
+    return (
+      <div className="profile-skeleton">
+        <div className="skeleton cover-skeleton"></div>
+        <div className="skeleton avatar-skeleton"></div>
+        <div className="skeleton text-skeleton"></div>
+        <div className="skeleton text-skeleton"></div>
+      </div>
+    );
   }
 
   return (
