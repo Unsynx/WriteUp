@@ -5,6 +5,11 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import bcrypt
 import datetime
+import os
+from openai import OpenAI
+import dotenv
+import json
+dotenv.load_dotenv()
 
 app = Flask(__name__)
 
@@ -209,6 +214,50 @@ def add_progress_data():
         )
 
     return jsonify({"msg": "Data point added successfully"}), 200
+
+
+@app.route('/api/writeup', methods=['POST'])
+def getHighlights():
+    data = request.get_json()
+    essay = data.get("text")
+    if not essay:
+        return jsonify({"msg": "No essay provided"}), 400
+    query = f"""Here's an essay for review. Please provide feedback:
+
+    For the output, I need the following in json format:
+    1- "highlights": I want at least 5 target highlights to give feedback on. Only highlight two sentences at a time. Try to have some of them towards the end as well. You can give them to me as a range of characters. I also want for each highlight range a comment that explains what you want to give feedback on exactly in this highlight range.
+    2- "elo": I want a score of the essay based on the parameters from 0 - 100.
+    3- "future": I want a prose style recommendation for how to improve in the future. 
+    I want this ready for me to store in a json variable right away with these names in python. Don't output anything other than the json tag.
+
+    Essay:
+    {essay}
+
+    Please ensure the feedback is constructive and provides actionable insights for improvement.
+    """
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {
+                "role": "user",
+                "content":query
+            }
+        ]
+    )
+
+    output = completion.choices[0].message.content
+    output = output[7:-3]
+    try:
+        parsed_output = json.loads(output)
+        return parsed_output
+    except json.JSONDecodeError as e:
+        return jsonify({"msg": "Failed to parse output from OpenAI", "error": str(e)}), 500
+
+
+
 
 
 if __name__ == '__main__':
