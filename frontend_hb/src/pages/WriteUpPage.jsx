@@ -1,25 +1,42 @@
 // src/components/LoginPage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router';
+import { data, useLocation } from 'react-router';
+import './WriteUpPage.css'
+import { TailSpin } from 'react-loading-icons'
 
 const WriteUpPage = () => {
-  const [text, setText] = useState('');
-  const [feedback, setFeedback] = useState();
-  const [showform, setShowform] = useState(true);
+  const location = useLocation();
+  const challenge = location.state;
 
+  const [text, setText] = useState('');
+  const [feedback, setFeedback] = useState({});
+  const [submitted, setSubmitted] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setSubmitted(true);
 
-    const response = await axios.post('http://127.0.0.1:5000/api/writeup', {
-        "text": text
-    }, {
-      timeout:20000
-    })
+    const token = localStorage.getItem('token');
+
+    const response = await axios.post('http://127.0.0.1:5000/api/writeup', 
+      { 'text': text }, 
+      { headers: { Authorization: `Bearer ${token}` } }, 
+      { timeout: 20000 }
+    )
     setFeedback(response.data);
     console.log(response.data)
+
+    axios.post('http://127.0.0.1:5000/api/elo', 
+      { 'elo': response.data.elo }, 
+      { headers: { Authorization: `Bearer ${token}` } }
+    )
+
+    console.log(response.data.elo)
   }
+
+
+
 
   function renderHighlightedText() {
     // If there is no feedback or no highlights, return the plain text.
@@ -61,33 +78,68 @@ const WriteUpPage = () => {
     return segments;
   }
 
+// Helper for color-coding difficulty.
+const getDifficultyColor = (diff) => {
+  if (diff === 'Easy') return 'green';
+  if (diff === 'Medium') return 'orange';
+  if (diff === 'Hard') return 'red';
+  return 'inherit';
+};
+
 
 return ( 
-  <div>
-    { showform && (<form onSubmit={handleSubmit}>
-            <input
-                type="input"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                style={{ width: '100%', padding: '0.5rem' }}
-            />
-            <button>Submit</button>
-    </form>)} 
-    {/* this is the uneditable essay submission */}
-    {!showform && (
+  <div className='write_cont'>
+    <div className='user_col'>
+      {submitted ? (
         <div>
           <h3>Original Text:</h3>
           <p>{text}</p>
-
           <h3>Highlighted Text:</h3>
           <p>{renderHighlightedText()}</p>
         </div>
+      ) : (
+        <textarea
+        placeholder='Start writing here...'
+        className='essay_field'
+        type="input"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        style={{ width: '100%', padding: '0.5rem', resize: "none" }}
+        />
       )}
+
+    {/* this is the uneditable essay submission */}
     {/* this is the prose feedback for the future */}
-    {!showform && (<div>
-      {feedback && feedback.future ? (<p>{feedback.future}</p>) : (<p>loading</p>)}
-      </div>)} 
-    {/* highlight system */}
+
+    </div>
+    <div className='feedback_col'>
+      <div>
+        <button 
+        className='submit_w_btn'
+        onClick={handleSubmit} disabled={submitted}>
+          {submitted && !feedback ? <TailSpin stroke='black' className='mr-3' height={"30px"}/> : ''} Submit
+        </button>
+      </div>
+      <div>
+      <div className='p-5'>
+        <h2 className='text-3xl mb-3'>{challenge.title}</h2>
+        <p className='mb-3'>
+          <strong>Difficulty:</strong>{' '}
+          <span style={{ color: getDifficultyColor(challenge.difficulty) }}>
+            {challenge.difficulty}
+          </span>
+        </p>
+        <p>{challenge.essay_prompt}</p>
+        <br />
+        <hr />
+        <br />
+
+          {submitted && (<div>
+            {feedback && feedback.future ? (<p>{feedback.future}</p>) : (<p>Loading Feedback...</p>)}
+            </div>)} 
+        </div>
+      </div>
+    </div>
   </div>
 );
 }

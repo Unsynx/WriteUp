@@ -113,8 +113,7 @@ def login():
         return jsonify({
             "access_token": access_token,
             "username": user["username"],
-            "email": user["email"],
-            "initial_placement": user["initial_placement"]
+            "email": user["email"]
         }), 200
 
     return jsonify({"msg": "Invalid credentials"}), 401
@@ -192,16 +191,19 @@ def add_elo_point():
     user_id = get_jwt_identity()
     user = users_collection.find_one({"_id": ObjectId(user_id)})
     elo = list(user.get("elo_history"))
+    print(elo)
     elo.append(elo_point)
+    print(elo)
     if len(elo) > 10:
         elo.pop(0)
 
     if user:
-        users_collection.update_one({"_id": user_id}, '{$set: { "elo_history": elo}}')
+        users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": {"elo_history": elo}})
         return jsonify({"msg": "ELO updated"}), 200
     return jsonify({"msg": "User not found"}), 404
 
 @app.route('/api/writeup', methods=['POST'])
+@jwt_required()
 def getHighlights():
     data = request.get_json()
     essay = data.get("text")

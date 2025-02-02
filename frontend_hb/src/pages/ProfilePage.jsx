@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './ProfilePage.css';
-import ProgressDashboard from '../components/ProgressDashboard';
+import EloGraph from '../components/EloGraph';
 
 const ProfilePage = () => {
   const [profile, setProfile] = useState(null);
@@ -128,7 +128,7 @@ function average(array) {
           />
         </div>
       </div>
-      <ProgressDashboard elo_history={profile.elo_history}/>
+      <EloGraph elo_history={profile.elo_history}/>
       <div className="badges-section">
         <h3>Your Badges</h3>
         {profile.badges && profile.badges.length > 0 ? (

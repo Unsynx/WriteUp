@@ -1,4 +1,3 @@
-// src/components/ProgressDashboard.jsx
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
@@ -22,12 +21,12 @@ ChartJS.register(
   Legend
 );
 
-const ProgressDashboard = ({elo_history}) => {
-  // Dummy data for demonstration.
+const EloGraph = ({ elo_history }) => {
   const [chartData, setChartData] = useState({
+    labels: elo_history.map((_, index) => index + 1), // Initial labels based on history length
     datasets: [
       {
-        label: 'Vocabulary Growth',
+        label: 'ELO Progress',
         data: elo_history,
         borderColor: 'black',
         backgroundColor: 'rgba(3, 169, 244, 0.2)',
@@ -36,11 +35,18 @@ const ProgressDashboard = ({elo_history}) => {
     ]
   });
 
-  // In a real implementation, you would fetch this data from the backend.
   useEffect(() => {
-    // Example: axios.get('/api/progress').then(...)
-    // For now, we use the dummy chartData defined above.
-  }, []);
+    setChartData((prev) => ({
+      ...prev,
+      labels: elo_history.map((_, index) => index + 1), // Updating labels dynamically
+      datasets: [
+        {
+          ...prev.datasets[0], // Keeping previous styles and properties
+          data: elo_history, // Updating only the data
+        }
+      ]
+    }));
+  }, [elo_history]);
 
   const options = {
     responsive: true,
@@ -68,4 +74,4 @@ const ProgressDashboard = ({elo_history}) => {
   );
 };
 
-export default ProgressDashboard;
+export default EloGraph;
