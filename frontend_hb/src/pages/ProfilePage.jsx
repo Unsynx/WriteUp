@@ -1,11 +1,10 @@
 // src/components/ProfilePage.jsx
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
+import ProgressDashboard from '../components/ProgressDashboard';
 
 const ProfilePage = () => {
-  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -19,18 +18,13 @@ const ProfilePage = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProfile(response.data);
+        console.log(response.data)
       } catch (err) {
         setError('Error fetching profile.');
       }
     };
     fetchProfile();
   }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    navigate('/login');
-  };
 
   // Trigger the hidden file input when the profile picture container is clicked
   const handleProfilePicClick = () => {
@@ -71,6 +65,12 @@ const ProfilePage = () => {
       setUploading(false);
     }
   };
+
+ 
+function average(array) {
+  if (array.length === 0) return 0;
+  return array.reduce((acc, c) => acc + c, 0) / array.length;
+}
 
   // ----- ADDED: Skeleton loader while profile data is loading -----
   if (!profile) {
@@ -122,12 +122,13 @@ const ProfilePage = () => {
         <h2 className="username">{profile.username}</h2>
         <div className="tier-image-container">
           <img
-            src="src/assets/tier1.svg"  // Adjust the path as needed
+            src={"src/assets/tier" + Math.floor((average(profile.elo_history) / 20) + 1) + ".svg"}
             alt="Tier 1 Badge"
             className="tier-image"
           />
         </div>
       </div>
+      <ProgressDashboard elo_history={profile.elo_history}/>
       <div className="badges-section">
         <h3>Your Badges</h3>
         {profile.badges && profile.badges.length > 0 ? (
