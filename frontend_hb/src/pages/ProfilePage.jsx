@@ -80,18 +80,24 @@ const ProfilePage = () => {
     <div className="profile-page">
       <div className="profile-header">
         <div className="cover-image">
-          {/* Update this with the desired cover image */}
+          {/* Update this with your desired cover image */}
         </div>
         <div
           className="profile-picture-container"
           onClick={handleProfilePicClick}
           title="Click to change profile picture"
         >
-          <img
-            src={profile.picture || '/default-profile.png'}
-            alt="Profile"
-            className="profile-picture"
-          />
+          {profile.picture ? (
+            <img
+              src={profile.picture}
+              alt="Profile"
+              className="profile-picture"
+            />
+          ) : (
+            <div className="no-picture">
+              <span className="plus-icon">+</span>
+            </div>
+          )}
           {uploading && <div className="uploading-overlay">Uploading...</div>}
         </div>
       </div>
