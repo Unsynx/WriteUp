@@ -43,6 +43,14 @@
   
   .nav-brand {
     height: 40px;
+    transition: ease-in-out 100ms;
+  }
+
+  .nav-brand:hover {
+    backface-visibility: hidden;
+    perspective: 1000px;
+
+    transform: scale(0.97) rotate(-1deg);
   }
 
   .logo {
