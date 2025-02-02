@@ -8,9 +8,9 @@ const LandingPage = () => {
     <>
       <div className="landing-container">
         <div className='hero_center'>
-          <h1>Welcome to WriteUp!</h1>
-          <p>
-            Engage with daily writing quests, AI-driven feedback, and exciting competitions
+          <img className='logo m-auto mb-10' height="200px" src="src/assets/Logo.svg"/>
+          <p className='max-w-md m-auto'>
+            Write essays like you are solving problems, get AI-driven feedback, and join exciting competitions
             that reward your progress!
           </p>
           <div className="landing-btns">
@@ -24,15 +24,15 @@ const LandingPage = () => {
       <section className="features-section">
         <div className="feature-card">
           <h3>AI-Driven Feedback</h3>
-          <p>Receive real-time suggestions on grammar, style, and structure to continuously refine your writing.</p>
+          <p>Receive direct feedback on grammar, style, and structure to continuously refine your writing.</p>
         </div>
         <div className="feature-card">
-          <h3>Daily Quests</h3>
-          <p>Stay motivated with bite-sized challenges that earn you points and valuable rewards.</p>
+          <h3>Level Up Your Writing</h3>
+          <p>Stay motivated with bite-sized challenges that earn you skill points and rewards.</p>
         </div>
         <div className="feature-card">
-          <h3>Community & Collaboration</h3>
-          <p>Connect with fellow writers, share insights, and critique each other’s work in a supportive environment.</p>
+          <h3>Community</h3>
+          <p>See how you place in the global leaderbaords! </p>
         </div>
       </section>
     </>
