@@ -91,7 +91,7 @@
   color: #555;
 }
 
-.logout-btn {
+.logout-btn2 {
   padding: 0.5rem 1rem;
   background-color: #03a9f4;
   border: none;
@@ -101,7 +101,7 @@
   margin-top: 1rem;
 }
 
-.logout-btn:hover {
+.logout-btn2:hover {
   background-color: #0288d1;
 }
 

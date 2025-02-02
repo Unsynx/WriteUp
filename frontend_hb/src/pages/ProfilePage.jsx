@@ -120,7 +120,7 @@ const ProfilePage = () => {
       <div className="profile-details">
         <h2 className="username">{profile.username}</h2>
         <h3 className="tier">Tier: {profile.rank || 'Newbie'}</h3>
-        <button onClick={handleLogout} className="logout-btn">
+        <button onClick={handleLogout} className="logout-btn2">
           Logout
         </button>
       </div>
