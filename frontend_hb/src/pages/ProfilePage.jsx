@@ -109,6 +109,16 @@ const ProfilePage = () => {
           {uploading && <div className="uploading-overlay">Uploading...</div>}
         </div>
       </div>
+
+      {/* ----- ADDED: Tier badge image container ----- */}
+      <div className="tier-image-container">
+        <img
+          src="/assets/tier1.png"  // Adjust the path as needed
+          alt="Tier 1 Badge"
+          className="tier-image"
+        />
+      </div>
+
       {/* Hidden file input for image upload */}
       <input
         type="file"
