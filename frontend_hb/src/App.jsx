@@ -7,7 +7,6 @@ const LandingPage = React.lazy(() => import('./pages/LandingPage.jsx'));
 const LoginPage = React.lazy(() => import('./pages/LoginPage.jsx'));
 const RegisterPage = React.lazy(() => import('./pages/RegisterPage.jsx'));
 const ProfilePage = React.lazy(() => import('./pages/ProfilePage.jsx'));
-const PlacementPage = React.lazy(() => import('./pages/PlacementPage.jsx'));
 const SearchPage = React.lazy(() => import('./pages/SearchPage.jsx'));
 const WriteUpPage = React.lazy(() => import('./pages/WriteUpPage.jsx'));
 
@@ -58,11 +57,6 @@ return (
         <Route path="/profile" element={
           <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
             {isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />}
-          </Layout>
-        } />
-        <Route path="/placement" element={
-          <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            <PlacementPage />
           </Layout>
         } />
         <Route path="/search" element={
