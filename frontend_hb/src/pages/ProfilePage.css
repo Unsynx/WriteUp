@@ -91,6 +91,7 @@
   }
   
   /* Badges section displayed in a responsive grid */
+  /* Badges section: displays user badges in a responsive grid */
   .badges-section {
     margin: 2rem auto;
     max-width: 800px;
