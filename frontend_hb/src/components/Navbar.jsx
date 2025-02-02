@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify'; // For global toasts
 import 'react-toastify/dist/ReactToastify.css';   // Toastify CSS
 import './Navbar.css';
 
-const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
+const Navbar = ({ children, isAuthenticated, username }) => {
   return (
     <div className="layout-container">
       <header className="layout-header">
@@ -19,7 +19,7 @@ const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
               to="/search"
               className={({ isActive }) => (isActive ? 'active-link' : undefined)}
             >
-              View Challenges
+              Writting Challenges
             </NavLink>
             {isAuthenticated ? (
               <>
@@ -29,9 +29,6 @@ const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
                 >
                   Profile
                 </NavLink>
-                <button className="logout-btn" onClick={handleLogout}>
-                  Logout
-                </button>
               </>
             ) : (
               <>
@@ -40,6 +37,12 @@ const Navbar = ({ children, isAuthenticated, handleLogout, username }) => {
                   className={({ isActive }) => (isActive ? 'active-link' : undefined)}
                 >
                   Login
+                </NavLink>
+                <NavLink 
+                  to="/register"
+                  className={({ isActive }) => (isActive ? 'active-link' : undefined)}
+                >
+                  Register
                 </NavLink>
               </>
             )}

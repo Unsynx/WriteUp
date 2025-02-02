@@ -208,3 +208,17 @@
 .profile-page {
   background-color: white;
 }
+
+.profile_logout {
+  border: black solid 2px;
+  margin-top: 1em;
+  padding: 0.5rem 1.5rem;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  transition: ease-in-out 200ms;
+  margin-bottom: 3em;
+}
+
+.profile_logout:hover {
+  transform: translateY(-5px);
+  background-color: lightcoral;
+}

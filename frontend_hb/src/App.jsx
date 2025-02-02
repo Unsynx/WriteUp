@@ -56,7 +56,7 @@ return (
         } />
         <Route path="/profile" element={
           <Layout isAuthenticated={isAuthenticated} handleLogout={handleLogout} username={username}>
-            {isAuthenticated ? <ProfilePage /> : <Navigate to="/login" />}
+            {isAuthenticated ? <ProfilePage handleLogout={handleLogout}/> : <Navigate to="/login" />}
           </Layout>
         } />
         <Route path="/search" element={

@@ -4,7 +4,7 @@ import axios from 'axios';
 import './ProfilePage.css';
 import EloGraph from '../components/EloGraph';
 
-const ProfilePage = () => {
+const ProfilePage = ({ handleLogout }) => {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -127,7 +127,10 @@ function average(array) {
             className="tier-image"
           />
         </div>
+        
       </div>
+      <p className='text-2xl'>ELO: {Math.floor(average(profile.elo_history))}</p>
+      
       <EloGraph elo_history={profile.elo_history}/>
       <div className="badges-section">
         <h3>Your Badges</h3>
@@ -145,6 +148,7 @@ function average(array) {
         )}
       </div>
       {error && <p className="error-message">{error}</p>}
+      <button className="profile_logout" onClick={handleLogout}>Logout</button>
     </div>
   );
 };
