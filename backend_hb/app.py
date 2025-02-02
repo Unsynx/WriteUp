@@ -161,20 +161,23 @@ def search_challenges():
     if title:
         # Use regex for partial, case-insensitive matching
         query["title"] = {"$regex": title, "$options": "i"}
+
+    # CHANGED: Use "$all" instead of "$in" for the tags
     if tags:
-        # Split the string into a list, trimming extra spaces
         tags_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
         if tags_list:
-            query["tags"] = {"$in": tags_list}
+            query["tags"] = {"$all": tags_list}
+
     if difficulty:
         query["difficulty"] = difficulty
 
     challenges = list(challenges_collection.find(query))
+
     # Convert ObjectId to string for JSON serialization
     for challenge in challenges:
         challenge["_id"] = str(challenge["_id"])
-    return jsonify(challenges), 200
 
+    return jsonify(challenges), 200
 
 # ===========================
 # Progress Dashboard Endpoints
