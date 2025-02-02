@@ -66,22 +66,10 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
       localStorage.setItem('username', response.data.username);
       setIsAuthenticated(true);
       setUsername(response.data.username);
-
-      if (response.data.initial_placement === 'true') {
-        navigate('/profile');
-      } else {
-        navigate('/placement');
-      }
     } catch (err) {
       setServerError('Invalid credentials. Please try again.');
     }
   };
-
-  useEffect(() => {
-    if (localStorage.getItem('token') !== null) {
-      navigate('/profile');
-    }
-  }, [navigate]);
 
   return (
     <div className="log_con">

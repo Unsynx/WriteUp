@@ -74,7 +74,6 @@ def register():
         "username": username,
         "email": email,
         "password": hashed_pw,
-        "initial_placement": "false",
         "elo_history": [],
         "badges": []
     })
@@ -94,8 +93,7 @@ def login():
         return jsonify({
             "access_token": access_token,
             "username": user["username"],
-            "email": user["email"],
-            "initial_placement": user["initial_placement"]
+            "email": user["email"]
         }), 200
 
     return jsonify({"msg": "Invalid credentials"}), 401
