@@ -1,5 +1,5 @@
 // src/components/ProfilePage.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
@@ -8,6 +8,8 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState('');
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -30,6 +32,46 @@ const ProfilePage = () => {
     navigate('/login');
   };
 
+  // Trigger the hidden file input when the profile picture container is clicked
+  const handleProfilePicClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  // Handle the file input change event
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('profilePicture', file);
+
+    try {
+      setUploading(true);
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'http://localhost:5000/api/upload-profile-picture',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // Assuming the API returns the new picture URL in response.data.pictureUrl
+      setProfile((prevProfile) => ({
+        ...prevProfile,
+        picture: response.data.pictureUrl,
+      }));
+    } catch (err) {
+      setError('Failed to upload image.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   if (!profile) {
     return <div>Loading profile...</div>;
   }
@@ -38,16 +80,29 @@ const ProfilePage = () => {
     <div className="profile-page">
       <div className="profile-header">
         <div className="cover-image">
-          {/* Replace the URL below with the desired background image */}
+          {/* Update this with the desired cover image */}
         </div>
-        <div className="profile-picture-container">
+        <div
+          className="profile-picture-container"
+          onClick={handleProfilePicClick}
+          title="Click to change profile picture"
+        >
           <img
             src={profile.picture || '/default-profile.png'}
             alt="Profile"
             className="profile-picture"
           />
+          {uploading && <div className="uploading-overlay">Uploading...</div>}
         </div>
       </div>
+      {/* Hidden file input for image upload */}
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
       <div className="profile-details">
         <h2 className="username">{profile.username}</h2>
         <h3 className="tier">Tier: {profile.rank || 'Newbie'}</h3>

@@ -7,7 +7,7 @@
     padding: 0;
   }
   
-  /* Profile header containing the cover image and overlapping profile picture */
+  /* Profile header with the cover image and overlapping profile picture */
   .profile-header {
     position: relative;
     width: 100%;
@@ -23,7 +23,7 @@
     background-position: center;
   }
   
-  /* Profile picture container: positioned to overlap the cover image */
+  /* Profile picture container positioned to overlap the cover image */
   .profile-picture-container {
     position: absolute;
     bottom: -50px;
@@ -35,6 +35,7 @@
     border-radius: 50%;
     overflow: hidden;
     background-color: #fff;
+    cursor: pointer;
   }
   
   .profile-picture {
@@ -43,9 +44,24 @@
     object-fit: cover;
   }
   
+  /* Overlay displayed during image upload */
+  .uploading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
   /* Profile details: username, tier, and logout button */
   .profile-details {
-    margin-top: 60px; /* Create space for the overlapping profile picture */
+    margin-top: 60px; /* Space for the overlapping profile picture */
     padding: 1rem;
   }
   
@@ -74,7 +90,7 @@
     background-color: #0288d1;
   }
   
-  /* Badges section: displays user badges in a responsive grid */
+  /* Badges section displayed in a responsive grid */
   .badges-section {
     margin: 2rem auto;
     max-width: 800px;
