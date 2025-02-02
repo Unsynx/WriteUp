@@ -152,31 +152,43 @@ def create_challenge():
 
 @app.route('/api/challenges', methods=['GET'])
 def search_challenges():
-    title = request.args.get("title")
-    tags = request.args.get("tags")  # Expect a comma-separated string
-    difficulty = request.args.get("difficulty")
+    import re
 
-    query = {}
+    title = request.args.get("title", "").strip()
+    tags_param = request.args.get("tags", "").strip()  # Comma-separated
+    difficulty = request.args.get("difficulty", "").strip()
 
+    # We'll build our query via an $and array so each condition (title, difficulty, tags) is enforced.
+    and_clauses = []
+
+    # Title Filter
     if title:
-        # Use regex for partial, case-insensitive matching
-        query["title"] = {"$regex": title, "$options": "i"}
+        # Case-insensitive partial match on title
+        and_clauses.append({"title": {"$regex": title, "$options": "i"}})
 
-    # CHANGED: Use "$all" instead of "$in" for the tags
-    if tags:
-        tags_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
-        if tags_list:
-            query["tags"] = {"$all": tags_list}
-
+    # Difficulty Filter
     if difficulty:
-        query["difficulty"] = difficulty
+        # Exact match on difficulty
+        and_clauses.append({"difficulty": difficulty})
 
-    challenges = list(challenges_collection.find(query))
+    # Tags Filter (all tags must be present in the challenge)
+    if tags_param:
+        # Convert comma-separated string into a list of trimmed tags
+        tags_list = [tag.strip() for tag in tags_param.split(",") if tag.strip()]
+        if tags_list:
+            # For all tags to appear, use "$all"
+            # e.g., "tags": {"$all": ["Narrative","Poetic"] }
+            and_clauses.append({"tags": {"$all": tags_list}})
+
+    # If no filters were specified, the final query remains empty => matches all docs
+    # Otherwise, we build an $and query
+    final_query = {"$and": and_clauses} if and_clauses else {}
+
+    challenges = list(challenges_collection.find(final_query))
 
     # Convert ObjectId to string for JSON serialization
     for challenge in challenges:
         challenge["_id"] = str(challenge["_id"])
-
     return jsonify(challenges), 200
 
 # ===========================
