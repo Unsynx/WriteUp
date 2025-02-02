@@ -1,5 +1,5 @@
 // src/components/SearchChallenges.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const SearchPage = () => {
@@ -35,6 +35,11 @@ const SearchPage = () => {
     if (diff === 'Hard') return 'red';
     return 'inherit';
   };
+
+  useEffect(() => {
+    handleSearch(new Event('submit')); // Trigger search on mount
+  }, []);
+  
 
   return (
     <div style={{ padding: '2rem', width: '100%', boxSizing: 'border-box' }}>
