@@ -88,6 +88,16 @@ const getDifficultyColor = (diff) => {
   return 'inherit';
 };
 
+function isEmpty(obj) {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 
 return ( 
   <div className='write_cont'>
@@ -119,7 +129,7 @@ return (
         <button 
         className='submit_w_btn'
         onClick={handleSubmit} disabled={submitted}>
-          {submitted && !feedback ? <TailSpin stroke='black' className='mr-3' height={"30px"}/> : ''} Submit
+          {submitted && isEmpty(feedback) ? <TailSpin stroke='black' className='mr-3' height={"30px"}/> : ''} Submit
         </button>
       </div>
       <div>
