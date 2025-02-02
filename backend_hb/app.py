@@ -166,7 +166,8 @@ def search_challenges():
         # Split the string into a list, trimming extra spaces
         tags_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
         if tags_list:
-            query["tags"] = {"$in": tags_list}
+            # ----- MODIFIED: Use $all to require all specified tags -----
+            query["tags"] = {"$all": tags_list}
     if difficulty:
         query["difficulty"] = difficulty
 
@@ -175,7 +176,6 @@ def search_challenges():
     for challenge in challenges:
         challenge["_id"] = str(challenge["_id"])
     return jsonify(challenges), 200
-
 
 # ===========================
 # Progress Dashboard Endpoints
