@@ -42,42 +42,48 @@ const WriteUpPage = () => {
 
   function renderHighlightedText() {
     // If there is no feedback or no highlights, return the plain text.
-    if (!feedback || !feedback.highlights) return text;
+    if (!feedback || !feedback.highlights) return "";
 
     let segments = [];
-    let prevIndex = 0;
 
-    // Loop through each highlight range.
-    feedback.highlights.forEach((index) => {
-      console.log(index.range)
-      const [start, end] = index.range;
-
-      // Add non-highlighted text before the highlight.
-      segments.push(
-        <span key={`normal-${index}`}>
-          {text.slice(prevIndex, start)}
-        </span>
-      );
+    for (let i = 0; i < feedback.highlights.length; i++) {
+      var [start, end] = feedback.highlights[i].range;
+      var startNext;
+      try {
+        startNext = feedback.highlights[i + 1].range[0];
+      } catch (e) { 
+        startNext = text.length
+      }
+      console.log(start, end)
+      console.log(end, startNext)
 
       // Add the highlighted text.
       segments.push(
-        <span key={`highlight-${index}`} style={{ backgroundColor: 'yellow' }}>
-          {text.slice(start, end)}
+        <span key={`highlight-${i}`} style={{ backgroundColor: 'yellow' }}>
+          {text.substring(start, end)}
         </span>
       );
-
-      // Update the previous index.
-      prevIndex = end;
-    });
-
-    // Append any remaining text after the last highlight.
-    segments.push(
-      <span key="last">
-        {text.slice(prevIndex)}
-      </span>
-    );
+  
+      segments.push(
+        <span key={`text-${i}`} style={{ backgroundColor: 'white' }}>
+          {text.substring(end, startNext)}
+        </span>
+      );
+    }
 
     return segments;
+  }
+
+  function renderAdvice() {
+    if (!feedback || !feedback.highlights) return text;
+
+    return feedback.highlights.map(sec => (
+      <>
+        <h3 className='text-xl bold italic'>"{text.substring(sec.range[0], sec.range[1])}"</h3>
+        <p className='mb-5 text-slate-500'>{sec.comment}</p>
+      </>
+    ))
+
   }
 
 // Helper for color-coding difficulty.
@@ -144,7 +150,10 @@ return (
           {submitted && (<div>
             {feedback && feedback.future ? (
               <div>
-                
+                <div className='quotes'>
+                  {renderAdvice()}
+                </div>
+                <br /><hr /><br />
                 <p>{feedback.future}</p>
                 <br /><hr /><br />
                 <p className='text-2xl mb-5'>Your score: {feedback.elo}</p>
