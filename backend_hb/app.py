@@ -1,3 +1,4 @@
+from werkzeug.utils import secure_filename
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
@@ -5,6 +6,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import bcrypt
 import datetime
+import os
 
 app = Flask(__name__)
 
@@ -19,6 +21,55 @@ db = client["your_db_name"]
 users_collection = db["users"]
 challenges_collection = db["challenges"]
 progress_collection = db["progress"]  # New collection for progress tracking
+
+# Set a folder for uploaded profile pictures
+app.config['UPLOAD_FOLDER'] = 'uploads/'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/api/upload-profile-picture', methods=['POST'])
+@jwt_required()
+def upload_profile_picture():
+    user_id = get_jwt_identity()
+    if 'profilePicture' not in request.files:
+        return jsonify({"msg": "No file part in the request"}), 400
+    file = request.files['profilePicture']
+    if file.filename == '':
+        return jsonify({"msg": "No file selected"}), 400
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        # Ensure the upload folder exists
+        if not os.path.exists(app.config['UPLOAD_FOLDER']):
+            os.makedirs(app.config['UPLOAD_FOLDER'])
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(file_path)
+        # Here, we assume the file is served statically via a URL like /uploads/<filename>
+        picture_url = f"/uploads/{filename}"
+        # Update the user's document to include the new profile picture URL
+        users_collection.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"picture": picture_url}}
+        )
+        return jsonify({"pictureUrl": picture_url}), 200
+    else:
+        return jsonify({"msg": "File type not allowed"}), 400
+
+@app.route('/api/profile', methods=['GET'])
+@jwt_required()
+def profile():
+    user_id = get_jwt_identity()
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    if user:
+        return jsonify({
+            "username": user["username"],
+            "email": user["email"],
+            "picture": user.get("picture", None),  # Return the profile picture URL if available
+            "rank": user.get("rank", "Newbie"),
+            "badges": user.get("badges", [])
+        }), 200
+    return jsonify({"msg": "User not found"}), 404
 
 @app.route('/api/register', methods=['POST'])
 def register():
