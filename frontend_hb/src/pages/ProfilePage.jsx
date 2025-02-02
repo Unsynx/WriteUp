@@ -113,7 +113,7 @@ const ProfilePage = () => {
       {/* ----- ADDED: Tier badge image container ----- */}
       <div className="tier-image-container">
         <img
-          src="/assets/tier1.png"  // Adjust the path as needed
+          src="src/assets/tier1.svg"  // Adjust the path as needed
           alt="Tier 1 Badge"
           className="tier-image"
         />

@@ -190,10 +190,15 @@
 
 /* ----- ADDED: Tier Badge Image Styles ----- */
 .tier-image-container {
-  margin-top: 20px; /* Adjust spacing as needed */
+  margin-top: 50px; /* Adjust spacing as needed */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  z-index: 10;
+  position: relative;
 }
 
 .tier-image {
-  width: 120px;  /* Adjust width to suit your design */
+  width: 200px;  /* Adjust width to suit your design */
   height: auto;
 }
