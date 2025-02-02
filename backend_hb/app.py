@@ -95,7 +95,8 @@ def register():
         "email": email,
         "password": hashed_pw,
         "elo_history": [],
-        "badges": []
+        "badges": [],
+        "complete": []
     })
     return jsonify({"msg": "User created successfully"}), 201
 
@@ -182,24 +183,40 @@ def search_challenges():
         challenge["_id"] = str(challenge["_id"])
     return jsonify(challenges), 200
 
-@app.route('/api/elo', methods=['POST'])
+@app.route('/api/completed', methods=['GET'])
+@jwt_required()
+def get_completed_challenges():
+    user_id = get_jwt_identity()
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
+
+    result = list(map(str, user["complete"]))
+
+    if user:
+        return jsonify({"complete": result}), 200
+    return jsonify({"msg": "User not found"}), 404
+
+
+@app.route('/api/complete_challenge', methods=['POST'])
 @jwt_required()
 def add_elo_point():
     data = request.get_json()
     elo_point = data.get("elo")
+    challenge_id = data.get("challenge_id")
 
     user_id = get_jwt_identity()
     user = users_collection.find_one({"_id": ObjectId(user_id)})
     elo = list(user.get("elo_history"))
-    print(elo)
     elo.append(elo_point)
-    print(elo)
     if len(elo) > 10:
         elo.pop(0)
 
+    complete = list(user.get("complete"))
+    complete.append(ObjectId(challenge_id))
+
     if user:
-        users_collection.update_one({"_id": ObjectId(user_id)}, {"$set": {"elo_history": elo}})
-        return jsonify({"msg": "ELO updated"}), 200
+        users_collection.update_one({"_id": ObjectId(user_id)},
+            {"$set": {"elo_history": elo, "complete": complete}})
+        return jsonify({"msg": "Challenge Completion Updated"}), 200
     return jsonify({"msg": "User not found"}), 404
 
 @app.route('/api/writeup', methods=['POST'])

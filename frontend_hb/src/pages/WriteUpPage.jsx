@@ -27,8 +27,10 @@ const WriteUpPage = () => {
     setFeedback(response.data);
     console.log(response.data)
 
-    axios.post('http://127.0.0.1:5000/api/elo', 
-      { 'elo': response.data.elo }, 
+    axios.post('http://127.0.0.1:5000/api/complete_challenge', 
+      { 'elo': response.data.elo,
+        'challenge_id': challenge._id
+       }, 
       { headers: { Authorization: `Bearer ${token}` } }
     )
 

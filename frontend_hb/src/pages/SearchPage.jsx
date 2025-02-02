@@ -22,6 +22,7 @@ const SearchPage = () => {
   const [challenges, setChallenges] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [completedChallenges, setCompletedChallenges] = useState([]);
 
   // Handle changes in the tag input field and update suggestions.
   const handleTagInputChange = (e) => {
@@ -84,6 +85,15 @@ const SearchPage = () => {
       setError('Error fetching challenges. Please try again.');
     } finally {
       setLoading(false);
+      try {
+        const token = localStorage.getItem('token');
+        const r2 = await axios.get("http://localhost:5000/api/completed", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        })
+        setCompletedChallenges(r2.data.complete)
+      } finally { }
     }
   };
 
@@ -187,13 +197,17 @@ const SearchPage = () => {
                   {challenge.difficulty}
                 </span>
               </p>
+              
               <p className='chal_desc'>{challenge.essay_prompt}</p>
               <div className='tags'>
-                {challenge.tags.map((tag, index) => (
-                  <div className='tag' key={index}>
-                    <p>{tag}</p>
-                  </div>
-                ))}
+                <div className='tag_group'>
+                  {challenge.tags.map((tag, index) => (
+                    <div className='tag' key={index}>
+                      <p>{tag}</p>
+                    </div>
+                  ))}
+                </div>
+                {completedChallenges.includes(challenge._id) ? <div className='tag complete' >Completed</div> : ""}
               </div>
             </Link>
           ))

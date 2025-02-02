@@ -38,6 +38,8 @@
     display: flex;
     flex-direction: row;
     align-items: end;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .tag {
@@ -46,6 +48,12 @@
     margin-right: 5px;
     padding: 2px 7px;
     height: fit-content;
+}
+
+.tag_group {
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
 }
 
 .chal_desc {
@@ -76,4 +84,9 @@
 .selected-tags {
     position: absolute;
     transform: translateY(-35px);
+}
+
+.complete {
+    background-color: rgb(76, 159, 76);
+    color: white;
 }
