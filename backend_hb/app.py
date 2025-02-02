@@ -56,21 +56,6 @@ def upload_profile_picture():
     else:
         return jsonify({"msg": "File type not allowed"}), 400
 
-@app.route('/api/profile', methods=['GET'])
-@jwt_required()
-def profile():
-    user_id = get_jwt_identity()
-    user = users_collection.find_one({"_id": ObjectId(user_id)})
-    if user:
-        return jsonify({
-            "username": user["username"],
-            "email": user["email"],
-            "picture": user.get("picture", None),  # Return the profile picture URL if available
-            "rank": user.get("rank", "Newbie"),
-            "badges": user.get("badges", [])
-        }), 200
-    return jsonify({"msg": "User not found"}), 404
-
 @app.route('/api/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -89,7 +74,9 @@ def register():
         "username": username,
         "email": email,
         "password": hashed_pw,
-        "initial_placement": "false"
+        "initial_placement": "false",
+        "elo_history": [],
+        "badges": []
     })
     return jsonify({"msg": "User created successfully"}), 201
 
@@ -122,7 +109,8 @@ def profile():
     if user:
         return jsonify({
             "username": user["username"],
-            "email": user["email"]
+            "email": user["email"],
+            "elo_history": user["elo_history"],
         }), 200
     return jsonify({"msg": "User not found"}), 404
 
@@ -176,92 +164,25 @@ def search_challenges():
         challenge["_id"] = str(challenge["_id"])
     return jsonify(challenges), 200
 
-
-# ===========================
-# Progress Dashboard Endpoints
-# ===========================
-
-@app.route('/api/progress', methods=['GET'])
+@app.route('/api/elo', methods=['POST'])
 @jwt_required()
-def get_progress():
-    """
-    Returns a Chart.js-compatible object for the authenticated user's progress.
-    {
-        "labels": ["Week 1", "Week 2", ...],
-        "datasets": [
-            {
-                "label": "My Metric",
-                "data": [50, 65, ...],
-                "borderColor": "#03a9f4",
-                "backgroundColor": "rgba(3, 169, 244, 0.2)",
-                "tension": 0.3
-            }
-        ]
-    }
-    """
-    user_id = get_jwt_identity()
-    doc = progress_collection.find_one({"user_id": user_id})
-    if not doc:
-        # Return empty chart if no progress document is found for this user
-        return jsonify({
-            "labels": [],
-            "datasets": []
-        }), 200
-
-    # Example for a single metric (like "Vocabulary Growth")
-    chart_data = {
-        "labels": doc["labels"],    # e.g. ["Week 1", "Week 2", ...]
-        "datasets": [
-            {
-                "label": "Vocabulary Growth",  # You can customize or store multiple metrics
-                "data": doc["dataPoints"],     # e.g. [50, 65, 80, 95]
-                "borderColor": "#03a9f4",
-                "backgroundColor": "rgba(3, 169, 244, 0.2)",
-                "tension": 0.3
-            }
-        ]
-    }
-    return jsonify(chart_data), 200
-
-
-@app.route('/api/progress/add', methods=['POST'])
-@jwt_required()
-def add_progress_data():
-    """
-    Expects JSON: { "label": "Week 5", "value": 90 }
-    Appends the label/value to the user's data.
-    """
-    user_id = get_jwt_identity()
+def add_elo_point():
     data = request.get_json()
-    label = data.get("label")
-    value = data.get("value")
+    elo_point = data.get("elo")
 
-    if not label or value is None:
-        return jsonify({"msg": "Invalid data"}), 400
+    user_id = get_jwt_identity()
+    user = users_collection.find_one({"_id": ObjectId(user_id)})
+    elo = list(user.get("elo_history"))
+    elo.append(elo_point)
+    if len(elo) > 10:
+        elo.pop(0)
 
-    # Find or create a doc for this user
-    doc = progress_collection.find_one({"user_id": user_id})
-    if not doc:
-        # Create a new document for the user
-        new_doc = {
-            "user_id": user_id,
-            "labels": [label],
-            "dataPoints": [value]
-        }
-        progress_collection.insert_one(new_doc)
-    else:
-        # Append new data to existing arrays
-        doc["labels"].append(label)
-        doc["dataPoints"].append(value)
-        progress_collection.update_one(
-            {"_id": doc["_id"]},
-            {"$set": {
-                "labels": doc["labels"],
-                "dataPoints": doc["dataPoints"]
-            }}
-        )
+    if user:
+        users_collection.update_one({"_id": user_id}, '{$set: { "elo_history": elo}}')
+        return jsonify({"msg": "ELO updated"}), 200
 
-    return jsonify({"msg": "Data point added successfully"}), 200
+    return jsonify({"msg": "User not found"}), 404
+
 
 
 if __name__ == '__main__':
