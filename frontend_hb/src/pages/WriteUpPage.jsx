@@ -86,7 +86,7 @@ const WriteUpPage = () => {
         onMouseLeave={() => setHoveredIndex(null)}
         style={{ cursor: 'pointer', transition: "color 0.2s ease-in-out" }}
       >
-        <h3 className='text-xl bold italic'>" {text.substring(sec.range[0], sec.range[1])} "</h3>
+        <h3 className='text-xl bold italic'>"{text.substring(sec.range[0], sec.range[1])}"</h3>
         <p className='mb-5 text-slate-500'>{sec.comment}</p>
       </div>
     ));
@@ -115,7 +115,7 @@ return (
   <div className='write_cont'>
     <div className='user_col'>
       {submitted ? (
-        <div className='p-5'>
+        <div className='p-2'>
           <p>{renderHighlightedText()}</p>
         </div>
       ) : (

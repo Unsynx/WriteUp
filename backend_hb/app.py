@@ -242,7 +242,7 @@ def getHighlights():
     query = f"""Here's an essay for review. Please provide feedback:
 
     For the output, I need the following in json format:
-    1- "highlights": I want at least 5 target highlights to give feedback on. Only highlight two sentences at a time. Try to have some of them towards the end as well. You can give them to me as a range of characters. I also want for each highlight range a comment that explains what you want to give feedback on exactly in this highlight range.
+    1- "highlights": I want at most 5 target highlights to give feedback on, but focus on selecting longer sections over small chunks of text. They CANNOT overlap each other. Do NOT return empty quotes. Try to have some of them towards the end as well. You can give them to me as a range of characters. I also want for each highlight range a comment that explains what you want to give feedback on exactly in this highlight range.
     2- "elo": I want a score of the essay based on the parameters from 0 - 100.
     3- "future": I want a prose style recommendation for how to improve in the future. 
     I want this ready for me to store in a json variable right away with these names in python. Don't output anything other than the json tag.
