@@ -18,7 +18,7 @@ dotenv.load_dotenv()
 
 # Configuration for JWT
 app.config["JWT_SECRET_KEY"] = "your-secret-key"  # Replace with a secure secret in production
-CORS(app, support_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "*"}}, support_credentials=True) # Shouldn't be a wildcard in production
 jwt = JWTManager(app)
 
 # Setup MongoDB connection

@@ -1,9 +1,9 @@
 // src/components/LoginPage.jsx
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import './LoginPage.css';
+import api from '../util/api';
 
 const LoginPage = ({ setIsAuthenticated, setUsername }) => {
   const navigate = useNavigate();
@@ -61,7 +61,7 @@ const LoginPage = ({ setIsAuthenticated, setUsername }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/login', { email, password });
+      const response = await api.post('/login', { email, password });
       localStorage.setItem('token', response.data.access_token);
       localStorage.setItem('username', response.data.username);
       setIsAuthenticated(true);

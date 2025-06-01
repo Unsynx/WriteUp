@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import './SearchPage.css';
+import api from '../util/api';
 
 const availableTags = [
   "narrative", 
@@ -79,7 +80,7 @@ const SearchPage = () => {
     if (selectedTags.length > 0) params.tags = selectedTags.join(","); // join selected tags
     if (difficulty) params.difficulty = difficulty;
     try {
-      const response = await axios.get('http://localhost:5000/api/challenges', { params });
+      const response = await api.get('/challenges', { params });
       setChallenges(response.data);
     } catch (err) {
       setError('Error fetching challenges. Please try again.');
@@ -87,7 +88,7 @@ const SearchPage = () => {
       setLoading(false);
       try {
         const token = localStorage.getItem('token');
-        const r2 = await axios.get("http://localhost:5000/api/completed", {
+        const r2 = await api.get("/completed", {
           headers: {
             Authorization: `Bearer ${token}`,
           }

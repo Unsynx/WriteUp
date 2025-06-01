@@ -1,8 +1,8 @@
 // src/components/ProfilePage.jsx
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import './ProfilePage.css';
 import EloGraph from '../components/EloGraph';
+import api from '../util/api';
 
 const ProfilePage = ({ handleLogout }) => {
   const [profile, setProfile] = useState(null);
@@ -14,7 +14,7 @@ const ProfilePage = ({ handleLogout }) => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/profile', {
+        const response = await api.get('/profile', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setProfile(response.data);
@@ -44,8 +44,8 @@ const ProfilePage = ({ handleLogout }) => {
     try {
       setUploading(true);
       const token = localStorage.getItem('token');
-      const response = await axios.post(
-        'http://localhost:5000/api/upload-profile-picture',
+      const response = await api.post(
+        '/upload-profile-picture',
         formData,
         {
           headers: {

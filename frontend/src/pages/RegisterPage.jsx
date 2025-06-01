@@ -1,8 +1,8 @@
 // src/components/RegisterPage.jsx
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import "./LoginPage.css";
+import api from '../util/api';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const RegisterPage = () => {
     setErrors({});
 
     try {
-      await axios.post('http://localhost:5000/api/register', { username, email, password });
+      await api.post('/register', { username, email, password });
       navigate('/login');
     } catch (err) {
       setServerError('Error registering user. Email may already be in use.');

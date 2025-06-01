@@ -5,6 +5,7 @@ import { data, useLocation } from 'react-router';
 import './WriteUpPage.css'
 import { TailSpin } from 'react-loading-icons'
 import ChallengeGraph from '../components/ChallengeGraph.jsx'
+import api from '../util/api';
 
 const WriteUpPage = () => {
   const location = useLocation();
@@ -23,7 +24,7 @@ const WriteUpPage = () => {
 
     const token = localStorage.getItem('token');
 
-    const response = await axios.post('http://127.0.0.1:5000/api/writeup', 
+    const response = await api.post('/writeup', 
       { 'text': text, 'prompt': challenge.essay_prompt }, 
       { headers: { Authorization: `Bearer ${token}` } }, 
       { timeout: 20000 }
@@ -31,7 +32,7 @@ const WriteUpPage = () => {
     setFeedback(response.data);
     console.log(response.data)
 
-    const r2 = await axios.post('http://127.0.0.1:5000/api/complete_challenge', { 
+    const r2 = await api.post('/complete_challenge', { 
         'elo': response.data.elo,
         'challenge_id': challenge._id
        }, 
